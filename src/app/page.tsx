@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import styles from './RecipesList.module.scss';
 import RecipeCard from '@components/RecipeCard';
 import Button from '@components/Button';
@@ -22,7 +22,7 @@ import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
 import { useSearchParams } from 'next/navigation';
 
-const RecipesList = observer(() => {
+const RecipesListContent = observer(() => {
     const router = useRouter()
     const [recipeListStore] = useState(() => new RecipeListStore())
     const [favoritesStore] = useState(() => new FavoritesStore())
@@ -132,8 +132,13 @@ const RecipesList = observer(() => {
                 <ScrollToTop />
             </section>
         </div>
-
     );
-})
+});
 
-export default RecipesList;
+export default function RecipesList() {
+    return (
+        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}><Loader size='l' /></div>}>
+            <RecipesListContent />
+        </Suspense>
+    );
+}
