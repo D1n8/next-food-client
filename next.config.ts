@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(process.cwd(), 'src/shared/styles')],
     additionalData: `@import "@styles/mixins.scss";`,
+    silenceDeprecations: ['import', 'legacy-js-api']
   },
   images: {
     remotePatterns: [
