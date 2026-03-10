@@ -19,7 +19,7 @@ const Header = observer(() => {
                 <BurgerMenu />
                 <div className={styles.headerLogo}>
                     <Logo />
-                    <Text view="p-20" tag="h1" className={styles.title}>Food Client</Text>
+                    <Text view="p-20" tag="h1" color="primary" className={styles.title}>Food Client</Text>
                 </div>
 
                 <nav className={styles.nav}>
