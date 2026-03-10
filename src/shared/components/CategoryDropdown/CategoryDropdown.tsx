@@ -1,0 +1,67 @@
+'use client'
+import { useEffect, useMemo, useState } from "react";
+import CategoryStore from "@shared/store/CategoryStore";
+import MultiDropdown from "@components/Dropdowns/MultiDropdown";
+import { useSearchParams, useRouter, usePathname } from "next/navigation"; 
+import type { Option } from '@components/Dropdowns/types/types'
+import { formatSeletedCategories } from "@shared/utils";
+import { observer } from "mobx-react-lite";
+
+const CategoryDropdown = observer(() => {
+    const [store] = useState(() => new CategoryStore())
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+    const [localSelected, setLocalSelected] = useState<Option[]>([])
+
+    useEffect(() => {
+        store.fetchCategoryList()
+    }, [store])
+
+    const categoryOptions = useMemo<Option[]>(
+        () => store.list.map(item => ({ key: item.id.toString(), value: item.title })),
+        [store.list])
+
+    useEffect(() => {
+        const param = searchParams.get('categories')
+        const ids = param ? param.split(',') : []
+
+        const optionsFromUrl = categoryOptions.filter(opt => ids.includes(opt.key))
+        setLocalSelected(optionsFromUrl)
+    }, [searchParams, categoryOptions])
+
+    const handleChange = (newValues: Option[]) => {
+        setLocalSelected(newValues)
+    }
+
+   const handleApply = () => {
+        const newParams = new URLSearchParams(searchParams.toString())
+        
+        if (localSelected.length === 0) {
+            newParams.delete('categories')
+        } else {
+            const ids = localSelected.map(v => v.key).join(',')
+            newParams.set('categories', ids)
+        }
+        
+       router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
+    }
+
+    const handleGetTitle = (value: Option[]) => {
+        return formatSeletedCategories(value)
+    }
+
+    return (
+        <>
+            <MultiDropdown
+                options={categoryOptions}
+                value={localSelected}
+                onChange={handleChange}
+                getTitle={handleGetTitle}
+                action={handleApply}
+                placeholder="Categories" />
+        </>
+    );
+})
+
+export default CategoryDropdown;

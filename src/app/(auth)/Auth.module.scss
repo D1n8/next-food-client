@@ -1,0 +1,76 @@
+.authPage {
+    max-width: 1240px;
+    margin: 0 auto;
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond(xl) {
+        max-width: 1024px;
+    }
+
+    @include respond(lg) {
+        max-width: 768px;
+    }
+
+    @include respond(md) {
+        max-width: 576px;
+    }
+
+    @include respond(sm) {
+        max-width: 375px;
+    }
+
+    @include respond(xs) {
+        max-width: 300px;
+    }
+}
+
+.title{
+    margin-bottom: 10px;
+}
+
+.form{
+    width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.link{
+    cursor: pointer;
+}
+
+.link:hover{
+    color: var(--color-brand);  
+}
+
+.bottomContainer{
+    display: flex;
+    align-items: center;    
+    justify-content: space-between;
+}
+
+.error{
+    color: red;
+}
+
+.loaderContainer {
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.label{
+    color: var(--color-text);
+}

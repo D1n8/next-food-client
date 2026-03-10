@@ -1,0 +1,41 @@
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 17px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 1;
+    color: white;
+    background-color: var(--color-brand);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    @include respond(lg) {
+        padding: 12px 15px;
+        font-size: 16px;
+    }
+
+    @include respond(md) {
+        padding: 10px 10px;
+        font-size: 16px;
+    }
+}
+
+.btn:hover {
+    background-color: var(--color-brand-hover);
+}
+
+.btn:active {
+    background-color: var(--color-brand-active);
+}
+
+.btn:disabled {
+    background-color: var(--color-disabled);
+}
+
+.btn .loader {
+    border-color: var(--color-white);
+    border-right-color: transparent;
+}

@@ -1,0 +1,180 @@
+.loaderContainer {
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.recipePage {
+    width: 1240px;
+    margin: 50px auto;
+
+    @include respond(xl) {
+        max-width: 1024px;
+    }
+
+    @include respond(lg) {
+        max-width: 768px;
+    }
+
+    @include respond(md) {
+        max-width: 576px;
+    }
+
+    @include respond(sm) {
+        max-width: 375px;
+    }
+
+    @include respond(xs) {
+        max-width: 300px;
+    }
+}
+
+.btn {
+    margin-left: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.btn:hover {
+    transform: translateX(-5px);
+}
+
+.topContainer {
+    margin-bottom: 37px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+}
+
+.about {
+    margin-bottom: 48px;
+    display: flex;
+    gap: 166px;
+    align-items: center;
+
+    @include respond(lg) {
+        gap: 80px;
+    }
+
+    @include respond(md) {
+        gap: 50px;
+    }
+
+    @include respond(sm) {
+        flex-direction: column;
+        gap: 48px;
+    }
+}
+
+.aboutImg {
+    width: 450px;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+
+    @include respond(xl) {
+        width: 350px;
+        height: 250px;
+    }
+
+    @include respond(xs) {
+        width: 300px;
+        height: 200px;
+    }
+}
+
+.aboutContent {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    row-gap: 50px;
+    column-gap: 100px;
+
+    @include respond(xl) {
+        row-gap: 30px;
+        column-gap: 50px;
+    }
+
+    @include respond(md) {
+        row-gap: 15px;
+        column-gap: 30px;
+    }
+}
+
+.subtitle {
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.descr {
+    width: 100%;
+    margin-bottom: 48px;
+    padding: 36px;
+    padding-bottom: 29px;
+    border-radius: 10px;
+    background-color: rgba(181, 70, 15, 0.33);
+    line-height: 1.25;
+}
+
+.thingsContainer {
+    display: flex;
+    margin-bottom: 48px;
+
+    @include respond(lg) {
+        flex-direction: column;
+        gap: 48px;
+    }
+}
+
+.ingredients {
+    flex-basis: 50%;
+    border-right: 1px solid var(--color-brand);
+
+    @include respond(lg) {
+        border: none;
+    }
+}
+
+.equipments {
+    flex-basis: 50%;
+    padding-left: 50px;
+
+    @include respond(lg) {
+        padding: 0;
+    }
+}
+
+.ingredientsList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 8px;
+    column-gap: 30px;
+
+    @include respond(sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.equipmentsList {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    row-gap: 8px;
+    column-gap: 30px;
+
+    @include respond(sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.directions {
+    max-width: 740px;
+}
+
+.directionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

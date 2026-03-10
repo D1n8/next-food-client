@@ -1,0 +1,11 @@
+.secondary path{
+    stroke: rgba(175, 173, 181, 1);
+}
+
+.primary path{
+    stroke: var(--color-brand);
+}
+
+.accent path{
+    stroke: rgba(81, 133, 129, 1);
+}

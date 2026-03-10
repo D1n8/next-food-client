@@ -1,0 +1,40 @@
+.profilePage {
+    max-width: 1240px;
+    margin: 0 auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    @include respond(xl) {
+        max-width: 1024px;
+    }
+
+    @include respond(lg) {
+        max-width: 768px;
+    }
+
+    @include respond(md) {
+        max-width: 576px;
+    }
+
+    @include respond(sm) {
+        max-width: 375px;
+    }
+
+    @include respond(xs) {
+        max-width: 300px;
+    }
+}
+
+.topContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.textContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

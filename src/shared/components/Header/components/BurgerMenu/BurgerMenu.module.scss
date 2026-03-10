@@ -1,0 +1,50 @@
+.nav {
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 40%;
+    left: 0;
+    top: 64px;
+    background-color: var(--color-white);
+    z-index: 10;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: all 0.3s ease-out;
+    visibility: hidden;
+
+    @include respond(md) {
+        display: block;
+    }
+
+    @include respond(sm) {
+        width: 80%;
+    }
+
+    @include respond(xs) {
+        width: 100%;
+    }
+}
+
+.open {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.burgerNav {
+    display: flex;
+    padding: 10px 20px;
+    flex-direction: column;
+}
+
+.link {
+    padding: 20px;
+}
+
+.link:not(:last-child) {
+    border-bottom: 1px solid var(--color-brand);
+}
+
+.link:hover {
+    color: var(--color-brand);
+}

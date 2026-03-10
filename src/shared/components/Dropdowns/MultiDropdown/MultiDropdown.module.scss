@@ -1,0 +1,65 @@
+.multiDropdown {
+    position: relative;
+}
+
+.multiDropdownInput {
+    width: 300px;
+}
+
+.box {
+    width: 300px;
+    position: absolute;
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    gap: 20px;
+    border-radius: 10px;
+    background: var(--color-white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: appearance 0.3s ease-in-out;
+}
+
+.multiDropdownOptions {
+    width: 100%;
+    height: 300px;
+    border: 1px solid var(--color-secondary);
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+.multiDropdownOption {
+    padding: 14px 12px;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.multiDropdownOption:hover {
+    color: var(--color-secondary);
+}
+
+.selected {
+    color: var(--color-brand);
+}
+
+.multiDropdownNoOptions {
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.multiDropdown:focus-within {
+    border-color: var(--color-brand);
+}
+
+@keyframes appearance {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

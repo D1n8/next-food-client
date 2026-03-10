@@ -1,0 +1,38 @@
+.inputContainer {
+    position: relative;
+    display: inline-flex;
+}
+
+.input {
+    width: 370px;
+    padding: 16px 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.25;
+    background-color: var(--color-white);
+    color: var(--color-text);
+}
+
+.input:disabled {
+    background-color: var(--color-white);
+}
+
+.input::placeholder {
+    color: var(--color-secondary);
+}
+
+.input:focus {
+    outline: 1px solid var(--color-brand);
+}
+
+.inputIcon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-white);
+}

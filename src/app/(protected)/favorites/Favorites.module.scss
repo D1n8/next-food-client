@@ -1,0 +1,58 @@
+.favoritesPage {
+    max-width: 1240px;
+    margin: 0 auto;
+    margin-block: 50px;
+
+    @include respond(xl) {
+        max-width: 1024px;
+    }
+
+    @include respond(lg) {
+        max-width: 768px;
+    }
+
+    @include respond(md) {
+        max-width: 576px;
+    }
+
+    @include respond(sm) {
+        max-width: 375px;
+    }
+
+    @include respond(xs) {
+        max-width: 300px;
+    }
+}
+
+.list {
+    display: grid;
+    width: 100%;
+    margin-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+    overflow: visible;
+
+    @include respond(xl) {
+        gap: 40px;
+    }
+
+    @include respond(lg) {
+        gap: 20px;
+    }
+
+    @include respond(md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond(sm) {
+        grid-template-columns: 1fr;
+        align-items: center;
+    }
+}
+
+.loaderContainer {
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    justify-content: center;
+}

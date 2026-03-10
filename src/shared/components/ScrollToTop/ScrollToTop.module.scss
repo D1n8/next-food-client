@@ -1,0 +1,30 @@
+.btnToTop {
+    position: fixed;
+    border-radius: 50%;
+    padding: 12px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px);
+    transition: all 0.5s ease-in-out;
+}
+
+.visible{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@keyframes appearance {
+    0% {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
