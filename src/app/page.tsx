@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import styles from './RecipesList.module.scss';
 import RecipeCard from '@components/RecipeCard';
 import Button from '@components/Button';
@@ -9,6 +9,7 @@ import { formatIngredients, formatKcal } from '@shared/utils';
 import Loader from '@components/Loader';
 import { observer } from 'mobx-react-lite';
 import RecipeListStore from '@shared/store/RecipeListStore';
+import { useLocalStore } from '@shared/hooks';
 import Search from '@components/Search';
 import { toJS } from 'mobx';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -24,8 +25,8 @@ import { useSearchParams } from 'next/navigation';
 
 const RecipesListContent = observer(() => {
     const router = useRouter()
-    const [recipeListStore] = useState(() => new RecipeListStore())
-    const [favoritesStore] = useState(() => new FavoritesStore())
+    const recipeListStore = useLocalStore(() => new RecipeListStore())
+    const favoritesStore = useLocalStore(() => new FavoritesStore())
     const { userStore } = useRootStore()
     const searchParams = useSearchParams()
     const isAuth = userStore.isAuth

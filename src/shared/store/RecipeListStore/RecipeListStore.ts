@@ -3,11 +3,11 @@ import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";
 import { normalizeRecipe, type IRecipeApi, type IRecipeModel } from "../models/recipe";
-import { Meta } from "../../types/shared";
+import { Meta, type ILocalStore } from "../../types/shared";
 
 type PrivateFields = '_list' | '_meta' | '_hasMore' | '_selectedCategories'
 
-export default class RecipeListStore {
+export default class RecipeListStore implements ILocalStore {
     private _list: IRecipeModel[] = []
     private _meta: Meta = Meta.Initial
     private _searchQuery: string = ''
@@ -52,6 +52,8 @@ export default class RecipeListStore {
     get hasMore(): boolean {
         return this._hasMore
     }
+
+    destroy() {}
 
     loadMore = () => {
         this.fetchRecipeList(this._searchQuery, this._selectedCategories, this._sort, this._isVegetarian, true)

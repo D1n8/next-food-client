@@ -1,8 +1,9 @@
 'use client'
 import styles from './Recipe.module.scss'
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import RecipeStore from "@shared/store/RecipeStore";
+import { useLocalStore } from "@shared/hooks";
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import Ingredient from "@components/Ingredient";
@@ -20,7 +21,7 @@ const Recipe = observer(() => {
     const router = useRouter()
     const id = params.id as string
 
-    const [store] = useState(() => new RecipeStore())
+    const store = useLocalStore(() => new RecipeStore())
 
     useEffect(() => {
         if (id) {

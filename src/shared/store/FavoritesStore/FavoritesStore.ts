@@ -2,12 +2,12 @@ import { BASE_URL } from "@shared/consts"
 import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import qs from "qs"
-import { LocalStorageItem } from "@shared/types/shared"
+import { LocalStorageItem, type ILocalStore } from "@shared/types/shared"
 import { type IFavoriteModel, type IFavoriteApi, normalizeRecipe } from "@shared/store/models/recipe"
 
 type PrivateFields = '_favorites' | '_isLoading'
 
-export default class FavoritesStore {
+export default class FavoritesStore implements ILocalStore {
     private _favorites: IFavoriteModel[] = []
     private _isLoading: boolean = false
 
@@ -35,6 +35,8 @@ export default class FavoritesStore {
     get favoritesDocIds(): Set<string> {
         return new Set(this._favorites.map(item => item.recipe.documentId))
     }
+
+    destroy() {}
 
     async fetchFavorites() {
         this._isLoading = true
