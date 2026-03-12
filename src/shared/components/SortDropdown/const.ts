@@ -4,7 +4,8 @@ export enum SortKey {
     Default = 'default',
     Rating = 'rating:desc',
     Quick = 'totalTime:asc',
-    Slow = 'totalTime:desc'
+    Slow = 'totalTime:desc',
+    Calories = 'calories:asc'
 }
 
 export const options: Option[] = [
@@ -23,6 +24,10 @@ export const options: Option[] = [
     {
         key: SortKey.Slow,
         value: "Slow recipe"
+    },
+    {
+        key: SortKey.Calories,
+        value: "Low-calorie"
     }
 ]
 
