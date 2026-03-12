@@ -2,11 +2,11 @@ import { BASE_URL } from "@shared/consts";
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import type { Category } from "@shared/store/models/recipe";
-import { Meta } from "@shared/types/shared";
+import { Meta, type ILocalStore } from "@shared/types/shared";
 
 type PrivateFields = '_list' | '_meta'
 
-export default class CategoryStore {
+export default class CategoryStore implements ILocalStore {
     private _list: Category[] = []
     private _meta: Meta = Meta.Initial
 
@@ -27,6 +27,8 @@ export default class CategoryStore {
     get meta() {
         return this._meta
     }
+
+    destroy() {}
 
     async fetchCategoryList() {
         this._meta = Meta.Loading

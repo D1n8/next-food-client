@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import styles from './Favorites.module.scss';
 import { observer } from 'mobx-react-lite';
 import RecipeCard from '@components/RecipeCard';
@@ -8,12 +8,13 @@ import Text from '@components/Text';
 import Button from '@components/Button';
 import { useRouter } from 'next/navigation';
 import FavoritesStore from '@shared/store/FavoritesStore';
+import { useLocalStore } from '@shared/hooks';
 import Loader from '@components/Loader';
 import { routes } from '@config/routes';
 import CaptionSlot from '@components/CaptionSlot';
 
 const Favorites = observer(() => {
-    const [store] = useState(() => new FavoritesStore())
+    const store = useLocalStore(() => new FavoritesStore())
     const router = useRouter()
 
     useEffect(() => {

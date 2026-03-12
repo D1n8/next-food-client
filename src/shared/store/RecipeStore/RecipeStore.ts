@@ -2,12 +2,12 @@ import { BASE_URL } from "@shared/consts";
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";
-import { Meta } from "@shared/types/shared";
+import { Meta, type ILocalStore } from "@shared/types/shared";
 import { normalizeFullRecipe, type IFullRecipeModel } from "@shared/store/models/recipe";
 
 type PrivateFields = '_recipe' | '_meta'
 
-export default class RecipeStore {
+export default class RecipeStore implements ILocalStore {
     private _recipe: IFullRecipeModel | null = null
     private _meta: Meta = Meta.Initial
 
@@ -52,5 +52,9 @@ export default class RecipeStore {
     clearRecipe() {
         this._recipe = null
         this._meta = Meta.Initial
+    }
+
+    destroy() {
+        this.clearRecipe()
     }
 }

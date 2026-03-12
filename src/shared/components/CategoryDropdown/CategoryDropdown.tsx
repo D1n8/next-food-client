@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from "react";
 import CategoryStore from "@shared/store/CategoryStore";
+import { useLocalStore } from "@shared/hooks";
 import MultiDropdown from "@components/Dropdowns/MultiDropdown";
 import { useSearchParams, useRouter, usePathname } from "next/navigation"; 
 import type { Option } from '@components/Dropdowns/types/types'
@@ -8,7 +9,7 @@ import { formatSeletedCategories } from "@shared/utils";
 import { observer } from "mobx-react-lite";
 
 const CategoryDropdown = observer(() => {
-    const [store] = useState(() => new CategoryStore())
+    const store = useLocalStore(() => new CategoryStore())
     const searchParams = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()

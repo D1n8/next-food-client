@@ -6,3 +6,7 @@ export enum Meta {
 }
 
 export enum LocalStorageItem { JWT = 'jwt' }
+
+export interface ILocalStore {
+    destroy(): void;
+}
