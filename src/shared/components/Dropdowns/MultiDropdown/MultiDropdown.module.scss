@@ -6,6 +6,11 @@
     width: 300px;
 }
 
+.active {
+    outline: 1px solid var(--color-brand);
+    border-radius: 10px;
+}
+
 .box {
     width: 300px;
     position: absolute;
@@ -58,6 +63,7 @@
         transform: translateY(-10px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;

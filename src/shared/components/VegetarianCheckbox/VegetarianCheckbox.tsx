@@ -3,6 +3,7 @@ import CheckBox from '@components/CheckBox';
 import Text from '@components/Text';
 import styles from './VegetarianCheckbox.module.scss'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import classNames from 'classnames';
 
 function VegetarianCheckbox() {
     const searchParams = useSearchParams()
@@ -23,7 +24,7 @@ function VegetarianCheckbox() {
     }
 
     return (
-        <div className={styles.vegetarian}>
+        <div className={classNames(styles.vegetarian, isChecked && styles.checked)}>
             <Text color='secondary'>Vegetarian</Text>
             <CheckBox className={styles.checkbox} checked={isChecked} onChange={handleCheck} />
         </div>

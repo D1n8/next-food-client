@@ -5,6 +5,7 @@ import Button from '@components/Button';
 import SearchIcon from '@components/Icons/SearchIcon';
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import classNames from 'classnames';
 
 function Search() {
     const searchParams = useSearchParams()
@@ -35,7 +36,7 @@ function Search() {
         <div className={styles.inputContainer}>
             <Input
                 style={{ width: '100%' }}
-                className={styles.input}
+                className={classNames(styles.input, searchValue.length > 0 && styles.active)}
                 value={searchValue}
                 onChange={setSearchValue}
                 onKeyDown={handleKeyDown}

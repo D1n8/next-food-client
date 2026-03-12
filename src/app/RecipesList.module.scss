@@ -117,3 +117,8 @@
     align-items: center;
     gap: 10px;
 }
+
+.active{
+    border-radius: 10px;
+    outline: 1px solid var(--color-brand)
+}

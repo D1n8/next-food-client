@@ -32,12 +32,15 @@ const SortDropdown = () => {
         return option ? option.value : "Sort by";
     }
 
+    const isActive = selectedValue !== SortKey.Default
+
     return (
         <Dropdown
             getTitle={getTitle}
             options={options}
             selectedKey={selectedValue}
-            onSelect={handleSelect} />
+            onSelect={handleSelect}
+            isActive={isActive} />
     );
 }
 

@@ -46,6 +46,10 @@
     color: var(--color-brand);
 }
 
+.active {
+    outline: 1px solid var(--color-brand);
+}
+
 @keyframes appearance {
     from {
         transform: translateY(-10px);

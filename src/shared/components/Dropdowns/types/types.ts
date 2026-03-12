@@ -13,7 +13,8 @@ export type DropdownProps = {
   options: Option[],
   /**Ключ выбранного значения*/
   selectedKey: string,
-  onSelect: (value: SortKey) => void
+  onSelect: (value: SortKey) => void,
+  isActive: boolean
 }
 
 /** Пропсы, которые принимает компонент Dropdown */
