@@ -1,6 +1,6 @@
 'use client'
 import styles from './Recipe.module.scss'
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import RecipeStore from "@shared/store/RecipeStore";
 import { useLocalStore } from "@shared/hooks";
@@ -13,8 +13,10 @@ import ArrowBack from "@components/Icons/ArrowBack";
 import AboutItem from "@components/AboutItem";
 import Loader from "@components/Loader";
 import Text from "@components/Text";
+import ServingsCounter from "@components/ServingsCounter";
 import parse from 'html-react-parser';
 import Image from 'next/image';
+import classNames from 'classnames';
 
 const Recipe = observer(() => {
     const params = useParams()
@@ -38,6 +40,10 @@ const Recipe = observer(() => {
     const isLoading = store.meta === 'loading'
     const isError = store.meta === 'error'
     const recipe = store.recipe ? toJS(store.recipe) : null
+
+    const [currentServings, setCurrentServings] = useState<number | null>(null)
+    const servings = currentServings ?? recipe?.servings ?? 1
+    const ratio = recipe ? servings / recipe.servings : 1
 
     if (isLoading) {
         return (
@@ -91,11 +97,24 @@ const Recipe = observer(() => {
 
             <div className={styles.thingsContainer}>
                 <div className={styles.ingredients}>
-                    <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Ingredients</Text>
+                    <div className={styles.ingredientsHeader}>
+                        <Text
+                            tag="h3"
+                            view='p-20'
+                            color='primary'
+                            className={classNames(styles.subtitle, styles.ingsSubtitle)}>
+                            Ingredients for <ServingsCounter value={servings} onChange={setCurrentServings} /> servings
+                        </Text>
+
+                    </div>
                     <ul className={styles.ingredientsList}>
                         {
                             recipe.ingredients.map(ingredient =>
-                                <Ingredient key={ingredient.id} {...ingredient} />
+                                <Ingredient
+                                    key={ingredient.id}
+                                    {...ingredient}
+                                    amount={parseFloat((ingredient.amount * ratio).toFixed(2))}
+                                />
                             )
                         }
                     </ul>
