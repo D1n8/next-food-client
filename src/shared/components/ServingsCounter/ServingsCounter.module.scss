@@ -12,7 +12,6 @@
     outline: 1px solid var(--color-brand);
     background: none;
     color: var(--color-brand);
-    // font-size: 20px;
     transition: all 0.2s ease-in-out;
 
     &:hover:not(:disabled) {
@@ -30,7 +29,8 @@
     width: 35px;
     height: 24px;
     text-align: center;
-    border: 1px solid var(--color-brand);
+    border: none;
+    outline: none;
     border-radius: 6px;
     background: none;
     color: var(--color-text);
