@@ -22,6 +22,7 @@ import ScrollToTop from '@components/ScrollToTop';
 import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
 import { useSearchParams } from 'next/navigation';
+import IngredientFilter from '@components/IngredientFilter';
 
 const RecipesListContent = observer(() => {
     const router = useRouter()
@@ -38,7 +39,11 @@ const RecipesListContent = observer(() => {
         const isVegetarian = searchParams.get('vegetarian') === 'true'
         const categoriesParam = searchParams.get('categories')
         const categories = categoriesParam ? categoriesParam.split(',') : []
-        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian )
+        const ingsIncludedParam = searchParams.get('ings-included')
+        const ingsNotIncludedParam = searchParams.get('ings-not-included')
+        const ingsIncluded = ingsIncludedParam ? ingsIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
+        const ingsNotIncluded = ingsNotIncludedParam ? ingsNotIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
+        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded, ingsNotIncluded)
     }, [recipeListStore, searchParams])
 
     useEffect(() => {
@@ -89,6 +94,7 @@ const RecipesListContent = observer(() => {
                     </div>
                     <CategoryDropdown />
                 </div>
+                <IngredientFilter />
 
                 <InfiniteScroll
                     key={listKey}

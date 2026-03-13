@@ -9,7 +9,7 @@ import { routes } from '@config/routes';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '@/shared/store/RootStore';
 import { useRouter } from 'next/navigation';
-import ButtonEye from '../ButtonEye';
+import ButtonEye from '@components/ButtonEye';
 
 const Register = observer(() => {
     const [email, setEmail] = useState('')
