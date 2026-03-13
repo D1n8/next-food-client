@@ -17,6 +17,7 @@ export default class RecipeListStore implements ILocalStore {
     private _hasMore: boolean = true
     private _pageSize: number = 6
     private _selectedCategories: string[] = []
+    private _ingsIncluded: string[] = []
 
     constructor(initialData?: IRecipeModel[]) {
         makeObservable<RecipeListStore, PrivateFields>(this, {
@@ -53,13 +54,19 @@ export default class RecipeListStore implements ILocalStore {
         return this._hasMore
     }
 
-    destroy() {}
+    destroy() { }
 
     loadMore = () => {
-        this.fetchRecipeList(this._searchQuery, this._selectedCategories, this._sort, this._isVegetarian, true)
+        this.fetchRecipeList(this._searchQuery, this._selectedCategories, this._sort, this._isVegetarian, this._ingsIncluded, true)
     }
 
-    async fetchRecipeList(searchQuery: string = '', categories: string[] = [], sort: string = '', isVegetarian: boolean = false, isLoadMore = false) {
+    async fetchRecipeList(
+        searchQuery: string = '',
+        categories: string[] = [],
+        sort: string = '',
+        isVegetarian: boolean = false,
+        ingsIncluded: string[] = [],
+        isLoadMore = false) {
         if (this._meta === 'loading') return
 
         if (!isLoadMore) {
@@ -70,6 +77,7 @@ export default class RecipeListStore implements ILocalStore {
             this._selectedCategories = categories
             this._sort = sort
             this._isVegetarian = isVegetarian
+            this._ingsIncluded = ingsIncluded
         }
 
         const queryParams: any = {
@@ -98,6 +106,12 @@ export default class RecipeListStore implements ILocalStore {
             queryParams.filters.vegetarian = {
                 $eq: 'true'
             }
+        }
+
+         if (this._ingsIncluded.length > 0) {
+            queryParams.filters.$and = this._ingsIncluded.map(ingredientName => ({
+                ingradients: { name: { $eqi: ingredientName } }
+            }))
         }
 
         if (this._sort) {
