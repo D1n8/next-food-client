@@ -27,14 +27,19 @@
     }
 }
 
-.topContainer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.title {
+    padding-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-brand);
 }
 
-.textContainer{
+.textContainer {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: end;
 }

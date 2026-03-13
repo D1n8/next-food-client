@@ -14,6 +14,8 @@ import AboutItem from "@components/AboutItem";
 import Loader from "@components/Loader";
 import Text from "@components/Text";
 import ServingsCounter from "@components/ServingsCounter";
+import Button from "@components/Button";
+import InteractiveChefView from "@components/InteractiveChefView";
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import classNames from 'classnames';
@@ -42,6 +44,7 @@ const Recipe = observer(() => {
     const recipe = store.recipe ? toJS(store.recipe) : null
 
     const [currentServings, setCurrentServings] = useState<number | null>(null)
+    const [isChefModeOpen, setIsChefModeOpen] = useState(false)
     const servings = currentServings ?? recipe?.servings ?? 1
     const ratio = recipe ? servings / recipe.servings : 1
 
@@ -133,7 +136,12 @@ const Recipe = observer(() => {
             </div>
 
             <div className={styles.directions}>
-                <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Directions</Text>
+                <div className={styles.directionsHeader}>
+                    <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Directions</Text>
+                    <Button onClick={() => setIsChefModeOpen(true)}>
+                        Start Cooking
+                    </Button>
+                </div>
                 <ul className={styles.directionsList}>
                     {
                         recipe.directions.map((direction, index) =>
@@ -142,6 +150,12 @@ const Recipe = observer(() => {
                     }
                 </ul>
             </div>
+
+            <InteractiveChefView
+                isOpen={isChefModeOpen}
+                onClose={() => setIsChefModeOpen(false)}
+                directions={recipe.directions}
+            />
         </div>
     );
 })

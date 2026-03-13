@@ -12,6 +12,8 @@ export type TextProps = {
     color?: 'primary' | 'secondary' | 'accent';
     maxLines?: number;
     onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 };
 
 const Text: React.FC<TextProps> = (props) => {
@@ -19,8 +21,11 @@ const Text: React.FC<TextProps> = (props) => {
     const Tag = props.tag ? props.tag : 'p'
 
     return (
-        <Tag onClick={() => props.onClick && props.onClick()} className={
-            classNames(
+        <Tag 
+        {...props.onMouseEnter} 
+        {...props.onMouseLeave} 
+        onClick={() => props.onClick && props.onClick()} 
+        className={classNames(
                 styles.textContainer,
                 props.className,
                 props.view && styles[props.view],

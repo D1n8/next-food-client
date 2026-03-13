@@ -10,9 +10,13 @@ import { observer } from "mobx-react-lite";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import { useRootStore } from "@/shared/store/RootStore";
 import { routes } from "@/shared/config/routes";
+import { useState } from "react";
+import CategoryList from "./components/CategoryList";
 
 const Header = observer(() => {
     const { userStore } = useRootStore()
+    const [listVisible, setListIsVisible] = useState(false)
+
     return (
         <header className={styles.header}>
             <div className={styles.headerContainer}>
@@ -28,6 +32,11 @@ const Header = observer(() => {
                         <Text tag="li" view="p-16">
                             <Link className={styles.link} href={routes.main.mask}>Recipes</Link>
                         </Text>
+                        <Text
+                            tag="li"
+                            view="p-16"
+                            className={styles.link}
+                            onClick={() => setListIsVisible(!listVisible)}>Categories</Text>
                     </ul>
 
                     <div className={styles.userInfo}>
@@ -40,6 +49,8 @@ const Header = observer(() => {
                         <ThemeSwitcher />
                     </div>
                 </nav>
+
+                <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)}/>
             </div>
 
         </header>);

@@ -179,6 +179,13 @@
     max-width: 740px;
 }
 
+.directionsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
 .directionsList {
     display: flex;
     flex-direction: column;

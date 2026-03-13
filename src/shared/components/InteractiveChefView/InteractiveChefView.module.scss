@@ -1,0 +1,200 @@
+.chefModal {
+    width: 100%;
+    max-width: 600px;
+    padding: 24px;
+    min-height: 400px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.progressContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progressBar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--color-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background-color: var(--color-brand);
+    transition: width 0.3s ease;
+}
+
+.progressText {
+    text-align: center;
+}
+
+.stepContent {
+    background-color: var(--color-secondary);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stepText {
+    line-height: 1.6;
+}
+
+.timerButtons {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.timerButton {
+    font-size: 14px;
+}
+
+.activeTimer {
+    background-color: var(--color-brand-hover);
+    color: var(--color-white);
+}
+
+.finishedTimer {
+    background-color: #4CAF50;
+    color: var(--color-white);
+}
+
+.timersList {
+    border-top: 1px solid var(--color-secondary);
+    padding-top: 16px;
+}
+
+.timersTitle {
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.timerItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: var(--color-bg-secondary);
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    &.timerFinished {
+        background-color: #E8F5E9;
+        border: 2px solid #4CAF50;
+    }
+}
+
+.timerLabel {
+    font-size: 14px;
+    min-width: 80px;
+}
+
+.timerValue {
+    &.timerValueFinished {
+        color: #2E7D32;
+    }
+}
+
+.timerControls {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.timerControlBtn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: var(--color-brand);
+        color: var(--color-white);
+    }
+}
+
+.timerNotification {
+    font-weight: 600;
+    color: #2E7D32;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.navButton {
+    flex: 1;
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+.nextButton {
+    background-color: var(--color-brand);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-brand-hover);
+    }
+
+    &:disabled {
+        background-color: var(--color-disabled);
+    }
+}
+
+.confirmModal {
+    max-width: 400px;
+    padding: 24px;
+}
+
+.confirmContent {
+    text-align: center;
+}
+
+.confirmTitle {
+    margin-bottom: 12px;
+}
+
+.confirmText {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.confirmButtons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirmExitBtn {
+    background-color: var(--color-red);
+
+    &:hover {
+        background-color: var(--color-red-hover);
+    }
+}

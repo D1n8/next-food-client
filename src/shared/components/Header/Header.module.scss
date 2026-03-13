@@ -29,7 +29,6 @@
 
     @include respond(lg) {
         width: 55px;
-
     }
 }
 
@@ -38,7 +37,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 
     @include respond(md){
         justify-content: end;
@@ -62,7 +60,6 @@
 .pageLinks {
     display: flex;
     gap: 16px;
-    
 
     @include respond(md){
         display: none
@@ -82,6 +79,7 @@
 .link{
     color: var(--color-text);
     transition: color 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .link:hover{
