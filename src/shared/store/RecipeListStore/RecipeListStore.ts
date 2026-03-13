@@ -18,7 +18,6 @@ export default class RecipeListStore implements ILocalStore {
     private _pageSize: number = 6
     private _selectedCategories: string[] = []
     private _ingsIncluded: string[] = []
-    private _ingsNotIncluded: string[] = []
 
     constructor(initialData?: IRecipeModel[]) {
         makeObservable<RecipeListStore, PrivateFields>(this, {
@@ -58,7 +57,13 @@ export default class RecipeListStore implements ILocalStore {
     destroy() { }
 
     loadMore = () => {
-        this.fetchRecipeList(this._searchQuery, this._selectedCategories, this._sort, this._isVegetarian, this._ingsIncluded, this._ingsNotIncluded, true)
+        this.fetchRecipeList(
+            this._searchQuery,
+            this._selectedCategories,
+            this._sort,
+            this._isVegetarian,
+            this._ingsIncluded,
+            true)
     }
 
     async fetchRecipeList(
@@ -67,7 +72,6 @@ export default class RecipeListStore implements ILocalStore {
         sort: string = '',
         isVegetarian: boolean = false,
         ingsIncluded: string[] = [],
-        ingsNotIncluded: string[] = [],
         isLoadMore = false) {
         if (this._meta === 'loading') return
 
@@ -80,7 +84,6 @@ export default class RecipeListStore implements ILocalStore {
             this._sort = sort
             this._isVegetarian = isVegetarian
             this._ingsIncluded = ingsIncluded
-            this._ingsNotIncluded = ingsNotIncluded
         }
 
         const queryParams: any = {

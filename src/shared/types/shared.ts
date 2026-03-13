@@ -5,6 +5,14 @@ export enum Meta {
     Success = 'success'
 }
 
+export enum QueryParams {
+    Name = 'name',
+    SortBy = 'sort-by',
+    Vegetarian = 'vegetarian',
+    Categories = 'categories',
+    IngredientsIncluded = 'ings-included'
+}
+
 export enum LocalStorageItem { JWT = 'jwt' }
 
 export interface ILocalStore {

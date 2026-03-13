@@ -5,15 +5,14 @@ import Input from '@components/Input';
 import Text from '@components/Text';
 import classNames from 'classnames';
 import styles from './IngredientFilter.module.scss';
-
-const PARAM_INCLUDED = 'ings-included'
+import { QueryParams } from '@/shared/types/shared';
 
 function IngredientFilter() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()
 
-    const [included, setIncluded] = useState(searchParams.get(PARAM_INCLUDED) || '')
+    const [included, setIncluded] = useState(searchParams.get(QueryParams.IngredientsIncluded) || '')
 
     const applyFilter = (paramKey: string, value: string) => {
         const newParams = new URLSearchParams(searchParams.toString())
@@ -41,8 +40,8 @@ function IngredientFilter() {
                     className={classNames(styles.input, included.trim().length > 0 && styles.active)}
                     value={included}
                     onChange={setIncluded}
-                    onBlur={() => applyFilter(PARAM_INCLUDED, included)}
-                    onKeyDown={(e) => handleKeyDown(e, PARAM_INCLUDED, included)}
+                    onBlur={() => applyFilter(QueryParams.IngredientsIncluded, included)}
+                    onKeyDown={(e) => handleKeyDown(e, QueryParams.IngredientsIncluded, included)}
                     placeholder='e.g. chicken, garlic'
                 />
             </div>

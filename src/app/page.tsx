@@ -23,6 +23,7 @@ import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
 import { useSearchParams } from 'next/navigation';
 import IngredientFilter from '@components/IngredientFilter';
+import { QueryParams } from '@/shared/types/shared';
 
 const RecipesListContent = observer(() => {
     const router = useRouter()
@@ -34,16 +35,14 @@ const RecipesListContent = observer(() => {
     const listKey = searchParams.toString() || 'default-list'
 
     useEffect(() => {
-        const query = searchParams.get('name') || ''
-        const sort = searchParams.get('sort-by') || ''
-        const isVegetarian = searchParams.get('vegetarian') === 'true'
-        const categoriesParam = searchParams.get('categories')
+        const query = searchParams.get(QueryParams.Name) || ''
+        const sort = searchParams.get(QueryParams.SortBy) || ''
+        const isVegetarian = searchParams.get(QueryParams.Vegetarian) === 'true'
+        const categoriesParam = searchParams.get(QueryParams.Categories)
         const categories = categoriesParam ? categoriesParam.split(',') : []
-        const ingsIncludedParam = searchParams.get('ings-included')
-        const ingsNotIncludedParam = searchParams.get('ings-not-included')
+        const ingsIncludedParam = searchParams.get(QueryParams.IngredientsIncluded)
         const ingsIncluded = ingsIncludedParam ? ingsIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
-        const ingsNotIncluded = ingsNotIncludedParam ? ingsNotIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
-        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded, ingsNotIncluded)
+        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded)
     }, [recipeListStore, searchParams])
 
     useEffect(() => {
