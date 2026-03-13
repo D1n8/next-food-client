@@ -13,7 +13,8 @@ const roboto = Roboto({
 const themeScript = `
   (function() {
     try {
-      var theme = localStorage.getItem('app-theme') || 'light';
+      var saved = localStorage.getItem('app-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.body.setAttribute('data-theme', theme);
     } catch (e) {}
   })();

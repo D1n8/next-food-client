@@ -19,11 +19,14 @@ export default class UIStore {
 
     initTheme = () => {
         const savedTheme = localStorage.getItem('app-theme');
-        if (savedTheme && savedTheme !== this.theme) {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = savedTheme || systemTheme;
+
+        if (theme !== this.theme) {
             runInAction(() => {
-                this.theme = savedTheme;
+                this.theme = theme;
             });
-            document.body.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', theme);
         }
     }
 
