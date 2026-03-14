@@ -16,6 +16,7 @@ import Text from "@components/Text";
 import ServingsCounter from "@components/ServingsCounter";
 import Button from "@components/Button";
 import InteractiveChefView from "@components/InteractiveChefView";
+import { useRootStore } from '@/shared/store/RootStore';
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import classNames from 'classnames';
@@ -26,6 +27,7 @@ const Recipe = observer(() => {
     const id = params.id as string
 
     const store = useLocalStore(() => new RecipeStore())
+    const { shoppingStore } = useRootStore()
 
     useEffect(() => {
         if (id) {
@@ -45,8 +47,22 @@ const Recipe = observer(() => {
 
     const [currentServings, setCurrentServings] = useState<number | null>(null)
     const [isChefModeOpen, setIsChefModeOpen] = useState(false)
+    const [addedToList, setAddedToList] = useState(false)
     const servings = currentServings ?? recipe?.servings ?? 1
     const ratio = recipe ? servings / recipe.servings : 1
+
+    const handleAddToShoppingList = useCallback(() => {
+        if (!recipe) return
+        shoppingStore.addIngredients(
+            recipe.ingredients.map(i => ({
+                name: i.name,
+                amount: parseFloat((i.amount * ratio).toFixed(2)),
+                unit: i.unit,
+            }))
+        )
+        setAddedToList(true)
+        setTimeout(() => setAddedToList(false), 2000)
+    }, [recipe, ratio, shoppingStore])
 
     if (isLoading) {
         return (
@@ -108,7 +124,9 @@ const Recipe = observer(() => {
                             className={classNames(styles.subtitle, styles.ingsSubtitle)}>
                             Ingredients for <ServingsCounter value={servings} onChange={setCurrentServings} /> servings
                         </Text>
-
+                        <Button onClick={handleAddToShoppingList}>
+                            {addedToList ? 'Added' : 'Add to shopping list'}
+                        </Button>
                     </div>
                     <ul className={styles.ingredientsList}>
                         {

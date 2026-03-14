@@ -1,0 +1,72 @@
+.page {
+    width: 1240px;
+    margin: 50px auto;
+
+    @include respond(xl) {
+        max-width: 1024px;
+    }
+
+    @include respond(lg) {
+        max-width: 768px;
+    }
+
+    @include respond(md) {
+        max-width: 576px;
+        margin: 30px auto;
+    }
+
+    @include respond(sm) {
+        max-width: 375px;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+
+.clearAllBtn {
+    background: none;
+    border: 1px solid var(--color-red);
+    color: var(--color-red);
+
+    &:hover {
+        color: white;
+        background-color: var(--color-red-hover);
+        border: 1px solid var(--color-red-hover);
+    }
+}
+
+.empty {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.lists {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.sectionTitle {
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+

@@ -3,6 +3,7 @@ import React, { useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import styles from './Modal.module.scss'
+import Close from '../CloseButton'
 
 export type ModalProps = {
     isOpen: boolean
@@ -42,14 +43,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, children, className, onClose, sho
         <div className={styles.backdrop} onClick={handleBackdropClick}>
             <div className={classNames(styles.modal, className)}>
                 {showCloseButton && onClose && (
-                    <button
-                        type="button"
-                        className={styles.closeButton}
-                        onClick={onClose}
-                        aria-label="Close"
-                    >
-                        ✕
-                    </button>
+                    <Close className={styles.closeButton} onClick={onClose} color='rgba(175, 173, 181, 1)'/>
                 )}
                 {children}
             </div>

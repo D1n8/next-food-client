@@ -31,17 +31,24 @@ const Header = observer(() => {
                         <Text tag="li" view="p-16">
                             <Link className={styles.link} href={routes.main.mask}>Recipes</Link>
                         </Text>
-                        
-                        <li 
+
+                        <li
+                            className={styles.link}
                             onMouseEnter={() => setListIsVisible(true)}
                             onMouseLeave={() => setListIsVisible(false)}
-                            style={{ listStyle: 'none', height: '100%', display: 'flex', alignItems: 'center' }}
                         >
                             <Text view="p-16" className={styles.link}>
                                 Categories
                             </Text>
-                            <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)}/>
+                            <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)} />
                         </li>
+
+                        <Text tag="li" view="p-16">
+                            <Link className={styles.link} href={routes.shoppingList.mask}>
+                                Shopping List
+                            </Link>
+                        </Text>
+
                     </ul>
 
                     <div className={styles.userInfo}>

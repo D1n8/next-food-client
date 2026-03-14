@@ -23,6 +23,11 @@ function BurgerMenu() {
                             Recipes
                         </Text>
                     </Link>
+                    <Link className={styles.link} href={routes.shoppingList.mask}>
+                        <Text onClick={handleOpen} view="p-16">
+                            Shopping List
+                        </Text>
+                    </Link>
                 </div>
             </nav>
         </>

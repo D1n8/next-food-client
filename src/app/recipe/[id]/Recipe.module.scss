@@ -109,10 +109,11 @@
     margin-bottom: 24px;
 }
 
-.ingsSubtitle{
+.ingsSubtitle {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 0;
 }
 
 .descr {
@@ -151,6 +152,15 @@
     @include respond(lg) {
         padding: 0;
     }
+}
+
+.ingredientsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
 .ingredientsList {

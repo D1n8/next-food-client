@@ -4,8 +4,9 @@ import styles from './CategoryList.module.scss'
 import CategoryStore from '@/shared/store/CategoryStore';
 import { useEffect, useMemo } from 'react';
 import Text from '@/shared/components/Text';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { QueryParams } from '@/shared/types/shared';
+import { routes } from '@/shared/config/routes';
 
 interface ICategoryList {
     visible: boolean,
@@ -16,7 +17,6 @@ function CategoryList({ visible, onClose }: ICategoryList) {
     const store = useLocalStore(() => new CategoryStore())
     const searchParams = useSearchParams()
     const router = useRouter()
-    const pathname = usePathname()
 
     useEffect(() => {
         store.fetchCategoryList()
@@ -29,7 +29,7 @@ function CategoryList({ visible, onClose }: ICategoryList) {
     const handleClick = (id: string) => {
         const newParams = new URLSearchParams(searchParams.toString())
         newParams.set(QueryParams.Categories, id)
-        router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
+        router.push(`${routes.main.mask}?${newParams.toString()}`, { scroll: false })
         onClose()
         window.scrollTo({
             top: 500,
