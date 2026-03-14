@@ -118,13 +118,14 @@
 .timerControlBtn {
     width: 32px;
     height: 32px;
+    padding: 0;
     border: none;
     background-color: var(--color-secondary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         background-color: var(--color-brand);

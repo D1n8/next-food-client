@@ -9,6 +9,9 @@ import Text from '@components/Text'
 import CookingStore from '@shared/store/CookingStore'
 import { parseTimesFromText, formatTime, playBeep } from './utils/parseTime'
 import { useLocalStore } from '@/shared/hooks'
+import PlayButton from './components/PlayButton'
+import PauseButton from './components/PauseButton'
+import ResetButton from './components/ResetButton'
 
 export type InteractiveChefViewProps = {
     isOpen: boolean
@@ -143,21 +146,22 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
                                     </Text>
                                     <div className={styles.timerControls}>
                                         {!timer.isFinished && (
-                                            <Button
-                                                type="button"
-                                                className={styles.timerControlBtn}
-                                                onClick={() => timer.isActive ? store.pauseTimer(timer.id) : store.startTimer(timer.id, timer.initialDuration, timer.label)}
-                                            >
-                                                {timer.isActive ? '⏸' : '▶'}
-                                            </Button>
+                                            timer.isActive ?
+                                                <PauseButton
+                                                    className={styles.timerControlBtn}
+                                                    onClick={() => timer.isActive ? store.pauseTimer(timer.id) : store.startTimer(timer.id, timer.initialDuration, timer.label)}
+                                                />
+                                                :
+                                                <PlayButton
+                                                    className={styles.timerControlBtn}
+                                                    onClick={() => timer.isActive ? store.pauseTimer(timer.id) : store.startTimer(timer.id, timer.initialDuration, timer.label)}
+                                                />
                                         )}
-                                        <Button
+                                        <ResetButton
                                             type="button"
                                             className={styles.timerControlBtn}
                                             onClick={() => store.resetTimer(timer.id)}
-                                        >
-                                            ↺
-                                        </Button>
+                                        />
                                     </div>
                                     {timer.isFinished && (
                                         <Text className={styles.timerNotification}>Timer Done!</Text>

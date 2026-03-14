@@ -58,8 +58,10 @@
 }
 
 .pageLinks {
+    height: 28px;
     display: flex;
     gap: 16px;
+    align-items: center;
 
     @include respond(md){
         display: none

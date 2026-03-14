@@ -27,16 +27,21 @@ const Header = observer(() => {
                 </div>
 
                 <nav className={styles.nav}>
-
                     <ul className={styles.pageLinks}>
                         <Text tag="li" view="p-16">
                             <Link className={styles.link} href={routes.main.mask}>Recipes</Link>
                         </Text>
-                        <Text
-                            tag="li"
-                            view="p-16"
-                            className={styles.link}
-                            onClick={() => setListIsVisible(!listVisible)}>Categories</Text>
+                        
+                        <li 
+                            onMouseEnter={() => setListIsVisible(true)}
+                            onMouseLeave={() => setListIsVisible(false)}
+                            style={{ listStyle: 'none', height: '100%', display: 'flex', alignItems: 'center' }}
+                        >
+                            <Text view="p-16" className={styles.link}>
+                                Categories
+                            </Text>
+                            <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)}/>
+                        </li>
                     </ul>
 
                     <div className={styles.userInfo}>
@@ -49,11 +54,9 @@ const Header = observer(() => {
                         <ThemeSwitcher />
                     </div>
                 </nav>
-
-                <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)}/>
             </div>
-
-        </header>);
+        </header>
+    );
 })
 
 export default Header;

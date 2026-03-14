@@ -12,7 +12,7 @@ interface ICategoryList {
     onClose: () => void
 }
 
-function CategoryList({ visible, onClose, ...props }: ICategoryList) {
+function CategoryList({ visible, onClose }: ICategoryList) {
     const store = useLocalStore(() => new CategoryStore())
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -38,9 +38,10 @@ function CategoryList({ visible, onClose, ...props }: ICategoryList) {
         })
     }
 
+    if (categoryOptions.length === 0) return null;
+
     return (
-        visible && categoryOptions.length > 0 &&
-        <div className={styles.container}>
+        <div className={`${styles.container} ${visible ? styles.visible : ''}`}>
             <ul className={styles.categoryList}>
                 {
                     categoryOptions.map(opt =>

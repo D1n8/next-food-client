@@ -68,6 +68,10 @@ export default class CookingStore implements ILocalStore {
     startTimer(id: string, durationSeconds: number, label: string) {
         const existing = this._timers.find(t => t.id === id)
         if (existing) {
+            if (existing.isFinished || existing.remainingTime <= 0) {
+                existing.remainingTime = existing.initialDuration;
+            }
+            
             existing.isActive = true
             existing.isFinished = false
             return
