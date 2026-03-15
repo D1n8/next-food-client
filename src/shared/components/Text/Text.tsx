@@ -11,7 +11,7 @@ export type TextProps = {
     children: React.ReactNode;
     color?: 'primary' | 'secondary' | 'accent';
     maxLines?: number;
-    onClick?: () => void;
+    onClick?: (e?: any) => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
 };
@@ -24,7 +24,7 @@ const Text: React.FC<TextProps> = (props) => {
         <Tag 
         {...props.onMouseEnter} 
         {...props.onMouseLeave} 
-        onClick={() => props.onClick && props.onClick()} 
+        onClick={props.onClick && props.onClick} 
         className={classNames(
                 styles.textContainer,
                 props.className,

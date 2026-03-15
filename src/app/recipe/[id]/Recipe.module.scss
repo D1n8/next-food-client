@@ -159,8 +159,13 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 12px;
     margin-bottom: 24px;
+
+    @include respond(sm) {
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
 }
 
 .ingredientsList {
@@ -172,6 +177,11 @@
     @include respond(sm) {
         grid-template-columns: 1fr;
     }
+}
+
+.addToShopList{
+    padding: 12px 10px;
+    margin-right: 10px;
 }
 
 .equipmentsList {
@@ -189,6 +199,10 @@
     max-width: 740px;
 }
 
+.dirTitle{
+    font-weight: 700;
+}
+
 .directionsHeader {
     display: flex;
     justify-content: space-between;
@@ -200,4 +214,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.startCooking{
+    padding: 12px 10px;
 }

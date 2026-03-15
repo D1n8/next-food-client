@@ -28,27 +28,28 @@ const Header = observer(() => {
 
                 <nav className={styles.nav}>
                     <ul className={styles.pageLinks}>
-                        <Text tag="li" view="p-16">
-                            <Link className={styles.link} href={routes.main.mask}>Recipes</Link>
-                        </Text>
+                        <Link className={styles.link} href={routes.main.mask}>
+                            <Text tag="li" view="p-16">
+                                Recipes
+                            </Text>
+                        </Link>
 
                         <li
                             className={styles.link}
                             onMouseEnter={() => setListIsVisible(true)}
                             onMouseLeave={() => setListIsVisible(false)}
                         >
-                            <Text view="p-16" className={styles.link}>
+                            <Text view="p-16">
                                 Categories
                             </Text>
                             <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)} />
                         </li>
 
-                        <Text tag="li" view="p-16">
-                            <Link className={styles.link} href={routes.shoppingList.mask}>
+                        <Link className={styles.link} href={routes.shoppingList.mask}>
+                            <Text tag="li" view="p-16">
                                 Shopping List
-                            </Link>
-                        </Text>
-
+                            </Text>
+                        </Link>
                     </ul>
 
                     <div className={styles.userInfo}>

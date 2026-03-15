@@ -18,6 +18,10 @@
     @include respond(sm) {
         max-width: 375px;
     }
+    
+    @include respond(xs) {
+        max-width: 300px;
+    }
 }
 
 .header {

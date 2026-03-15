@@ -61,7 +61,6 @@ const Recipe = observer(() => {
             }))
         )
         setAddedToList(true)
-        setTimeout(() => setAddedToList(false), 2000)
     }, [recipe, ratio, shoppingStore])
 
     if (isLoading) {
@@ -124,7 +123,7 @@ const Recipe = observer(() => {
                             className={classNames(styles.subtitle, styles.ingsSubtitle)}>
                             Ingredients for <ServingsCounter value={servings} onChange={setCurrentServings} /> servings
                         </Text>
-                        <Button onClick={handleAddToShoppingList}>
+                        <Button className={styles.addToShopList} onClick={handleAddToShoppingList}>
                             {addedToList ? 'Added' : 'Add to shopping list'}
                         </Button>
                     </div>
@@ -155,8 +154,8 @@ const Recipe = observer(() => {
 
             <div className={styles.directions}>
                 <div className={styles.directionsHeader}>
-                    <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Directions</Text>
-                    <Button onClick={() => setIsChefModeOpen(true)}>
+                    <Text tag="h3" view='p-20' color='primary' className={styles.dirTitle}>Directions</Text>
+                    <Button className={styles.startCooking} onClick={() => setIsChefModeOpen(true)}>
                         Start Cooking
                     </Button>
                 </div>

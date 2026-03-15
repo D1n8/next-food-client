@@ -7,13 +7,16 @@ import Text from '@/shared/components/Text';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { QueryParams } from '@/shared/types/shared';
 import { routes } from '@/shared/config/routes';
+import classNames from 'classnames';
 
 interface ICategoryList {
     visible: boolean,
-    onClose: () => void
+    onClose: () => void,
+    isMobile?: boolean,
+    backToMenu?: () => void
 }
 
-function CategoryList({ visible, onClose }: ICategoryList) {
+function CategoryList({ visible, onClose, isMobile, backToMenu }: ICategoryList) {
     const store = useLocalStore(() => new CategoryStore())
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -41,7 +44,20 @@ function CategoryList({ visible, onClose }: ICategoryList) {
     if (categoryOptions.length === 0) return null;
 
     return (
-        <div className={`${styles.container} ${visible ? styles.visible : ''}`}>
+        <div className={classNames(styles.container, { 
+            [styles.visible]: visible, 
+            [styles.mobile]: isMobile
+        })}>
+
+            {isMobile && backToMenu && (
+                <div className={styles.backButton} onClick={(e) => {
+                    e.stopPropagation()
+                    backToMenu()
+                }}>
+                    <Text view="p-16" color="primary">Back to Menu</Text>
+                </div>
+            )}
+
             <ul className={styles.categoryList}>
                 {
                     categoryOptions.map(opt =>

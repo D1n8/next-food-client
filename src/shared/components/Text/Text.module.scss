@@ -9,6 +9,10 @@
 .title {
     font-weight: 700;
     font-size: 44px;
+
+     @include respond(md) {
+        font-size: 32px;
+    }
 }
 
 .button {
