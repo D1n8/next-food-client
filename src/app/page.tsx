@@ -23,7 +23,7 @@ import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
 import { useSearchParams } from 'next/navigation';
 import IngredientFilter from '@components/IngredientFilter';
-import { QueryParams } from '@/shared/types/shared';
+import { Meta, QueryParams } from '@/shared/types/shared';
 
 const RecipesListContent = observer(() => {
     const router = useRouter()
@@ -42,7 +42,9 @@ const RecipesListContent = observer(() => {
         const categories = categoriesParam ? categoriesParam.split(',') : []
         const ingsIncludedParam = searchParams.get(QueryParams.IngredientsIncluded)
         const ingsIncluded = ingsIncludedParam ? ingsIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
-        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded)
+        const ingsExcludedParam = searchParams.get(QueryParams.IngredientsExcluded)
+        const ingsExcluded = ingsExcludedParam ? ingsExcludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
+        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded, ingsExcluded)
     }, [recipeListStore, searchParams])
 
     useEffect(() => {
@@ -70,8 +72,8 @@ const RecipesListContent = observer(() => {
         }
     }, [favoritesStore, isAuth, router])
 
-    const isLoading = recipeListStore.meta === 'loading'
-    const isError = recipeListStore.meta === 'error'
+    const isLoading = recipeListStore.meta === Meta.Loading || recipeListStore.meta === Meta.Initial
+    const isError = recipeListStore.meta === Meta.Error
     const recipes = toJS(recipeListStore.list)
 
     return (

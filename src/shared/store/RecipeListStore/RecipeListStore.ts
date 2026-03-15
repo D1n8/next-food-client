@@ -18,6 +18,7 @@ export default class RecipeListStore implements ILocalStore {
     private _pageSize: number = 6
     private _selectedCategories: string[] = []
     private _ingsIncluded: string[] = []
+    private _ingsNotIncluded: string[] = []
 
     constructor(initialData?: IRecipeModel[]) {
         makeObservable<RecipeListStore, PrivateFields>(this, {
@@ -63,6 +64,7 @@ export default class RecipeListStore implements ILocalStore {
             this._sort,
             this._isVegetarian,
             this._ingsIncluded,
+            this._ingsNotIncluded,
             true)
     }
 
@@ -72,7 +74,9 @@ export default class RecipeListStore implements ILocalStore {
         sort: string = '',
         isVegetarian: boolean = false,
         ingsIncluded: string[] = [],
+        ingsNotIncluded: string[] = [],
         isLoadMore = false) {
+
         if (this._meta === 'loading') return
 
         if (!isLoadMore) {
@@ -84,55 +88,89 @@ export default class RecipeListStore implements ILocalStore {
             this._sort = sort
             this._isVegetarian = isVegetarian
             this._ingsIncluded = ingsIncluded
-        }
-
-        const queryParams: any = {
-            populate: ['images', 'ingradients'],
-            pagination: {
-                page: this._page,
-                pageSize: this._pageSize
-            },
-            filters: {},
-            sort: ''
-        }
-
-        if (this._searchQuery) {
-            queryParams.filters.name = { $containsi: this._searchQuery }
-        }
-
-        if (this._selectedCategories.length > 0) {
-            queryParams.filters.category = {
-                id: {
-                    $in: this._selectedCategories
-                }
-            }
-        }
-
-        if (this._isVegetarian) {
-            queryParams.filters.vegetarian = {
-                $eq: 'true'
-            }
-        }
-
-        const andConditions: any[] = [];
-
-        if (this._ingsIncluded.length > 0) {
-            this._ingsIncluded.forEach(ingredientName => {
-                andConditions.push({
-                    ingradients: { name: { $containsi: ingredientName } }
-                });
-            });
-        }
-
-        if (andConditions.length > 0) {
-            queryParams.filters.$and = andConditions;
-        }
-
-        if (this._sort) {
-            queryParams.sort = this._sort
+            this._ingsNotIncluded = ingsNotIncluded
         }
 
         try {
+            // получаем исключающие ингредиенты
+            let excludedIds: number[] = [];
+
+            if (this._ingsNotIncluded.length > 0) {
+                const badParams: any = {
+                    fields: ['id'],
+                    filters: {
+                        $or: this._ingsNotIncluded.map(ingredientName => ({
+                            ingradients: { name: { $containsi: ingredientName } }
+                        }))
+                    },
+                    pagination: { pageSize: 100 }
+                };
+
+                const badRes = await axios({
+                    method: "GET",
+                    url: `${BASE_URL}/recipes`,
+                    params: badParams,
+                    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
+                });
+
+                if (badRes.data && badRes.data.data) {
+                    excludedIds = badRes.data.data.map((item: any) => item.id);
+                }
+            }
+
+            // основной запрос
+            const queryParams: any = {
+                populate: ['images', 'ingradients'],
+                pagination: {
+                    page: this._page,
+                    pageSize: this._pageSize
+                },
+                filters: {},
+                sort: ''
+            }
+
+            if (this._searchQuery) {
+                queryParams.filters.name = { $containsi: this._searchQuery }
+            }
+
+            if (this._selectedCategories.length > 0) {
+                queryParams.filters.category = {
+                    id: {
+                        $in: this._selectedCategories
+                    }
+                }
+            }
+
+            if (this._isVegetarian) {
+                queryParams.filters.vegetarian = {
+                    $eq: 'true'
+                }
+            }
+
+            const andConditions: any[] = [];
+
+            if (this._ingsIncluded.length > 0) {
+                this._ingsIncluded.forEach(ingredientName => {
+                    andConditions.push({
+                        ingradients: { name: { $containsi: ingredientName } }
+                    });
+                });
+            }
+
+            if (excludedIds.length > 0) {
+                andConditions.push({
+                    id: { $notIn: excludedIds }
+                });
+            }
+
+            if (andConditions.length > 0) {
+                queryParams.filters.$and = andConditions;
+            }
+
+            if (this._sort) {
+                queryParams.sort = this._sort
+            }
+
             const response = await axios({
                 method: "GET",
                 url: `${BASE_URL}/recipes`,

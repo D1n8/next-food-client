@@ -1,9 +1,19 @@
-.input{
-    width: 300px;
+.root{
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+
+    @include respond(sm){
+        flex-direction: column;
+    }
 }
 
-.field {
-    margin-top: 10px;
+.input{
+    width: 300px;
+
+    @include respond(md){
+        width: 250px;
+    }
 }
 
 .active {

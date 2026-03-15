@@ -13,6 +13,8 @@ function IngredientFilter() {
     const pathname = usePathname()
 
     const [included, setIncluded] = useState(searchParams.get(QueryParams.IngredientsIncluded) || '')
+    const [excluded, setExcluded] = useState(searchParams.get(QueryParams.IngredientsExcluded) || '')
+
 
     const applyFilter = (paramKey: string, value: string) => {
         const newParams = new URLSearchParams(searchParams.toString())
@@ -43,6 +45,17 @@ function IngredientFilter() {
                     onBlur={() => applyFilter(QueryParams.IngredientsIncluded, included)}
                     onKeyDown={(e) => handleKeyDown(e, QueryParams.IngredientsIncluded, included)}
                     placeholder='e.g. chicken, garlic'
+                />
+            </div>
+            <div className={styles.field}>
+                <Text view='p-14' color='secondary'>Exclude ingredients</Text>
+                <Input
+                    className={classNames(styles.input, excluded.trim().length > 0 && styles.active)}
+                    value={excluded}
+                    onChange={setExcluded}
+                    onBlur={() => applyFilter(QueryParams.IngredientsExcluded, excluded)}
+                    onKeyDown={(e) => handleKeyDown(e, QueryParams.IngredientsExcluded, excluded)}
+                    placeholder='e.g. nut, milk'
                 />
             </div>
         </div>

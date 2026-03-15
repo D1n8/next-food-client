@@ -10,7 +10,8 @@ export enum QueryParams {
     SortBy = 'sort-by',
     Vegetarian = 'vegetarian',
     Categories = 'categories',
-    IngredientsIncluded = 'ings-included'
+    IngredientsIncluded = 'ings-included',
+    IngredientsExcluded = 'ings-exluded'
 }
 
 export enum LocalStorageItem { JWT = 'jwt' }
