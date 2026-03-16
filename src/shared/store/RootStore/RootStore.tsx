@@ -4,6 +4,7 @@ import { enableStaticRendering } from 'mobx-react-lite';
 import UIStore from '../UIStore';
 import UserStore from '../UserStore';
 import ShoppingStore from '../ShoppingStore';
+import MealPlannerStore from '../MealPlannerStore';
 
 enableStaticRendering(typeof window === 'undefined');
 
@@ -11,10 +12,12 @@ export class RootStore {
     uiStore: UIStore;
     userStore: UserStore;
     shoppingStore: ShoppingStore;
+    mealPlannerStore: MealPlannerStore;
     constructor() {
         this.uiStore = new UIStore();
         this.userStore = new UserStore();
         this.shoppingStore = new ShoppingStore();
+        this.mealPlannerStore = new MealPlannerStore();
     }
 }
 
@@ -36,6 +39,7 @@ export const RootStoreProvider = ({ children }: { children: React.ReactNode }) =
 
         store.uiStore.initTheme();
         store.shoppingStore.init();
+        store.mealPlannerStore.init();
     }, [store]);
 
     return (

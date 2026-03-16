@@ -30,5 +30,9 @@ export const routes = {
     shoppingList: {
         mask: '/shopping-list',
         create: () => '/shopping-list'
+    },
+    mealPlanner: {
+        mask: '/meal-planner',
+        create: () => '/meal-planner'
     }
 }
