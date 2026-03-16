@@ -11,12 +11,13 @@ export type DraggableRecipeCardProps = {
     recipe: IRecipeModel
     onRemove?: () => void
     isInCalendar?: boolean
+    date?: string
 }
 
-const DraggableRecipeCard: React.FC<DraggableRecipeCardProps> = ({ recipe, onRemove, isInCalendar = false }) => {
+const DraggableRecipeCard: React.FC<DraggableRecipeCardProps> = ({ recipe, onRemove, isInCalendar = false, date }) => {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-        id: isInCalendar ? `${recipe.id}-${recipe.documentId}` : `fav-${recipe.id}`,
-        data: { recipe, isInCalendar }
+        id: isInCalendar && date ? `${date}-${recipe.id}-${recipe.documentId}` : `fav-${recipe.id}`,
+        data: { recipe, isInCalendar, date }
     })
 
     const imageUrl = recipe.images?.[0]?.formats?.small?.url || recipe.images?.[0]?.url || ''

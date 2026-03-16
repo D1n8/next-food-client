@@ -11,6 +11,7 @@ import DayColumn from './DayColumn'
 import DraggableRecipeCard from './DraggableRecipeCard'
 import styles from './MealCalendar.module.scss'
 import Text from '../Text'
+import Button from '../Button'
 
 const MealCalendar: React.FC = observer(() => {
     const { mealPlannerStore, shoppingStore } = useRootStore()
@@ -52,16 +53,10 @@ const MealCalendar: React.FC = observer(() => {
         if (isDroppingOnDay) {
             const isFromCalendar = active.data.current?.isInCalendar
             if (isFromCalendar) {
-                // Find source date
-                for (const date of mealPlannerStore.weekDates) {
-                    const recipes = mealPlannerStore.getRecipesForDate(date)
-                    if (recipes.some(r => r.id === recipe.id)) {
-                        if (date !== overId) {
-                            mealPlannerStore.moveRecipe(date, overId, recipe.id)
-                            mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
-                        }
-                        return
-                    }
+                const sourceDate = active.data.current?.date as string
+                if (sourceDate && sourceDate !== overId) {
+                    mealPlannerStore.moveRecipe(sourceDate, overId, recipe.id)
+                    mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
                 }
             } else {
                 // Adding from favorites
@@ -119,10 +114,12 @@ const MealCalendar: React.FC = observer(() => {
 
                 <div className={styles.calendar}>
                     <div className={styles.navigation}>
-                        <button className={styles.navBtn} onClick={goToPrevWeek}>←</button>
-                        <span className={styles.weekLabel}>{weekLabel}</span>
-                        <button className={styles.navBtn} onClick={goToNextWeek}>→</button>
-                        <button className={styles.todayBtn} onClick={goToCurrentWeek}>Today</button>
+                        <Button className={styles.todayBtn} onClick={goToCurrentWeek}>Today</Button>
+                        <div className={styles.navWeek}>
+                            <button className={styles.navBtn} onClick={goToPrevWeek}>←</button>
+                            <Text tag='span' color='primary' className={styles.weekLabel}>{weekLabel}</Text>
+                            <button className={styles.navBtn} onClick={goToNextWeek}>→</button>
+                        </div>
                     </div>
 
                     <div className={styles.week}>

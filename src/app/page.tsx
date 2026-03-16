@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, useCallback, useEffect } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import styles from './RecipesList.module.scss';
 import RecipeCard from '@components/RecipeCard';
 import Button from '@components/Button';
@@ -26,6 +26,7 @@ import IngredientFilter from '@components/IngredientFilter';
 import { Meta, QueryParams } from '@/shared/types/shared';
 
 const RecipesListContent = observer(() => {
+    const [allFiltersIsOpen, setAllFiltersIsOpen] = useState(false)
     const router = useRouter()
     const recipeListStore = useLocalStore(() => new RecipeListStore())
     const favoritesStore = useLocalStore(() => new FavoritesStore())
@@ -72,6 +73,10 @@ const RecipesListContent = observer(() => {
         }
     }, [favoritesStore, isAuth, router])
 
+    const toggleFilters = () => {
+        setAllFiltersIsOpen(prev => !prev)
+    }
+
     const isLoading = recipeListStore.meta === Meta.Loading || recipeListStore.meta === Meta.Initial
     const isError = recipeListStore.meta === Meta.Error
     const recipes = toJS(recipeListStore.list)
@@ -87,15 +92,26 @@ const RecipesListContent = observer(() => {
                     color='primary'
                     tag='h2'>Find the perfect food and <u>drink ideas</u> for every occasion, from <u>weeknight dinners</u> to <u>holiday feasts</u>.</Text>
 
-                <Search />
-                <div className={styles.filtersContainer}>
-                    <div className={styles.filtersBox}>
-                        <SortDropdown />
-                        <VegetarianCheckbox />
+                <div className={styles.filtersSection}>
+                    <Search />
+
+                    <div className={`${styles.filtersWrapper} ${allFiltersIsOpen ? styles.isOpen : ''}`}>
+                        <div className={styles.deepFilters}>
+                            <div className={styles.filtersContainer}>
+                                <div className={styles.filtersBox}>
+                                    <SortDropdown />
+                                    <VegetarianCheckbox />
+                                </div>
+                                <CategoryDropdown />
+                            </div>
+                            <IngredientFilter />
+                        </div>
                     </div>
-                    <CategoryDropdown />
+
+                    <Button className={styles.toogleBtn} onClick={toggleFilters}>
+                        {allFiltersIsOpen ? 'Hide filters' : 'All filters'}
+                    </Button>
                 </div>
-                <IngredientFilter />
 
                 <InfiniteScroll
                     key={listKey}

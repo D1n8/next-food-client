@@ -40,9 +40,10 @@ const DayColumn: React.FC<DayColumnProps> = ({ date, recipes, onRemoveRecipe }) 
                 ) : (
                     recipes.map(recipe => (
                         <DraggableRecipeCard
-                            key={`${recipe.id}-${recipe.documentId}`}
+                            key={`${date}-${recipe.id}-${recipe.documentId}`}
                             recipe={recipe}
                             isInCalendar
+                            date={date}
                             onRemove={() => onRemoveRecipe(recipe.id)}
                         />
                     ))

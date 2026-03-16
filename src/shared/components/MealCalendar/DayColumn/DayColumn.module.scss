@@ -1,9 +1,9 @@
 .column {
     display: flex;
     flex-direction: column;
-    min-width: 140px;
+    min-width: 200px;
     flex: 1;
-    background: var(--color-secondary);
+    background: var(--color-light-gray);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -54,7 +54,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // color: var(--color-text-secondary);
     font-size: 12px;
     text-align: center;
     padding: 20px;

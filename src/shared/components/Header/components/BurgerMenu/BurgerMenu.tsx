@@ -48,6 +48,12 @@ function BurgerMenu() {
                         </Text>
                     </Link>
 
+                    <Link className={styles.link} href={routes.mealPlanner.mask}>
+                        <Text tag="li" view="p-16">
+                            Meal Planner
+                        </Text>
+                    </Link>
+
                     <CategoryList
                         visible={listVisible}
                         onClose={handleOpen}
