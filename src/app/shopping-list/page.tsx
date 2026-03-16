@@ -1,13 +1,14 @@
 'use client'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useRootStore } from '@/shared/store/RootStore'
 import Text from '@components/Text'
 import Button from '@components/Button'
 import styles from './ShoppingList.module.scss'
 import ShoppingItemRow from '@/shared/components/ShoppingItemRow'
+import Loader from '@/shared/components/Loader'
 
-const ShoppingListPage = observer(() => {
+const ShoppingList = observer(() => {
     const { shoppingStore } = useRootStore()
 
     useEffect(() => {
@@ -96,4 +97,10 @@ const ShoppingListPage = observer(() => {
     )
 })
 
-export default ShoppingListPage
+export default function ShoppingListPage() {
+    return (
+        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}><Loader size='l' /></div>}>
+            <ShoppingList/>
+        </Suspense>
+    )
+}
