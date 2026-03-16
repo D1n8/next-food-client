@@ -49,7 +49,7 @@ function BurgerMenu() {
                     </Link>
 
                     <Link className={styles.link} href={routes.mealPlanner.mask}>
-                        <Text tag="li" view="p-16">
+                        <Text onClick={handleOpen} tag="li" view="p-16">
                             Meal Planner
                         </Text>
                     </Link>
