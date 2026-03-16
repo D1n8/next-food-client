@@ -6,7 +6,7 @@ import type { DropdownProps } from "../types/types";
 import classNames from "classnames";
 import type { SortKey } from "@components/SortDropdown/const";
 
-function Dropdown({ getTitle, options, selectedKey, onSelect }: DropdownProps) {
+function Dropdown({ getTitle, options, selectedKey, onSelect, isActive }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +23,7 @@ function Dropdown({ getTitle, options, selectedKey, onSelect }: DropdownProps) {
 
     return (
         <div className={styles.sort} ref={containerRef}>
-            <Text className={styles.title} color="secondary" onClick={() => setIsOpen(true)}>{getTitle(selectedKey)}</Text>
+            <Text className={classNames(styles.title, isActive && styles.active)} color="secondary" onClick={() => setIsOpen(!isOpen)}>{getTitle(selectedKey)}</Text>
 
             {
                 isOpen &&

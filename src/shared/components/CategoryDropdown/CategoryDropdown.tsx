@@ -7,6 +7,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import type { Option } from '@components/Dropdowns/types/types'
 import { formatSeletedCategories } from "@shared/utils";
 import { observer } from "mobx-react-lite";
+import { QueryParams } from "@/shared/types/shared";
 
 const CategoryDropdown = observer(() => {
     const store = useLocalStore(() => new CategoryStore())
@@ -24,7 +25,7 @@ const CategoryDropdown = observer(() => {
         [store.list])
 
     useEffect(() => {
-        const param = searchParams.get('categories')
+        const param = searchParams.get(QueryParams.Categories)
         const ids = param ? param.split(',') : []
 
         const optionsFromUrl = categoryOptions.filter(opt => ids.includes(opt.key))
@@ -39,10 +40,10 @@ const CategoryDropdown = observer(() => {
         const newParams = new URLSearchParams(searchParams.toString())
         
         if (localSelected.length === 0) {
-            newParams.delete('categories')
+            newParams.delete(QueryParams.Categories)
         } else {
             const ids = localSelected.map(v => v.key).join(',')
-            newParams.set('categories', ids)
+            newParams.set(QueryParams.Categories, ids)
         }
         
        router.push(`${pathname}?${newParams.toString()}`, { scroll: false })

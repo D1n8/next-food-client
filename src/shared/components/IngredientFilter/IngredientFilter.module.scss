@@ -1,0 +1,22 @@
+.root{
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+
+    @include respond(sm){
+        flex-direction: column;
+    }
+}
+
+.input{
+    width: 300px;
+
+    @include respond(md){
+        width: 250px;
+    }
+}
+
+.active {
+    border-radius: 10px;
+    outline: 1px solid var(--color-brand);
+}

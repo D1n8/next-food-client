@@ -9,11 +9,13 @@ import { routes } from '@config/routes';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '@/shared/store/RootStore';
 import { useRouter } from 'next/navigation';
+import ButtonEye from '@components/ButtonEye';
 
 const Register = observer(() => {
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const router = useRouter()
     const { userStore } = useRootStore()
 
@@ -55,15 +57,18 @@ const Register = observer(() => {
                 </div>
 
                 <div className={styles.inputContainer}>
-                    <label htmlFor="password">Password</label>
+                    <label className={styles.label} htmlFor="password">Password</label>
                     <Input
                         placeholder='Your password'
                         style={{ width: '100%' }}
                         id='password'
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={setPassword}
-                        required />
+                        required
+                        afterSlot={
+                            <ButtonEye show={showPassword} setIsShow={setShowPassword}/>
+                        } />
                 </div>
 
                 <div className={styles.bottomContainer}>

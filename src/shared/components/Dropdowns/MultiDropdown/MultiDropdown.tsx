@@ -58,11 +58,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 
     const displayValue = isOpen ? filter : value.length > 0 ? getTitle(value) : '';
     const placeholderValue = isOpen ? (value.length === 0 ? getTitle(value) : 'Selected:') : placeholder;
+    const isActive = value.length > 0
 
     return (
         <div className={classNames(styles.multiDropdown, className)} ref={containerRef} onClick={() => setIsOpen(true)}>
             <Input
-                className={styles.multiDropdownInput}
+                className={classNames(styles.multiDropdownInput, isActive && styles.active)}
                 value={displayValue}
                 placeholder={placeholderValue}
                 disabled={disabled}

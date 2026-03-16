@@ -2,20 +2,21 @@
 import Dropdown from '@components/Dropdowns/Dropdown';
 import { options, SortKey } from './const';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { QueryParams } from '@/shared/types/shared';
 
 const SortDropdown = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()
-    const selectedValue = (searchParams.get('sort-by') as SortKey) || SortKey.Default;
+    const selectedValue = (searchParams.get(QueryParams.SortBy) as SortKey) || SortKey.Default;
 
     const handleSelect = (value: SortKey) => {
         const newParams = new URLSearchParams(searchParams.toString())
 
         if (!value || value === SortKey.Default) {
-            newParams.delete('sort-by')
+            newParams.delete(QueryParams.SortBy)
         } else {
-            newParams.set('sort-by', value)
+            newParams.set(QueryParams.SortBy, value)
         }
 
         router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
@@ -32,12 +33,15 @@ const SortDropdown = () => {
         return option ? option.value : "Sort by";
     }
 
+    const isActive = selectedValue !== SortKey.Default
+
     return (
         <Dropdown
             getTitle={getTitle}
             options={options}
             selectedKey={selectedValue}
-            onSelect={handleSelect} />
+            onSelect={handleSelect}
+            isActive={isActive} />
     );
 }
 

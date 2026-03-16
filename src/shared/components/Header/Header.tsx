@@ -10,9 +10,13 @@ import { observer } from "mobx-react-lite";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import { useRootStore } from "@/shared/store/RootStore";
 import { routes } from "@/shared/config/routes";
+import { useState } from "react";
+import CategoryList from "./components/CategoryList";
 
 const Header = observer(() => {
     const { userStore } = useRootStore()
+    const [listVisible, setListIsVisible] = useState(false)
+
     return (
         <header className={styles.header}>
             <div className={styles.headerContainer}>
@@ -23,11 +27,35 @@ const Header = observer(() => {
                 </div>
 
                 <nav className={styles.nav}>
-
                     <ul className={styles.pageLinks}>
-                        <Text tag="li" view="p-16">
-                            <Link className={styles.link} href={routes.main.mask}>Recipes</Link>
-                        </Text>
+                        <Link className={styles.link} href={routes.main.mask}>
+                            <Text tag="li" view="p-16">
+                                Recipes
+                            </Text>
+                        </Link>
+
+                        <li
+                            className={styles.link}
+                            onMouseEnter={() => setListIsVisible(true)}
+                            onMouseLeave={() => setListIsVisible(false)}
+                        >
+                            <Text view="p-16">
+                                Categories
+                            </Text>
+                            <CategoryList visible={listVisible} onClose={() => setListIsVisible(false)} />
+                        </li>
+
+                        <Link className={styles.link} href={routes.shoppingList.mask}>
+                            <Text tag="li" view="p-16">
+                                Shopping List
+                            </Text>
+                        </Link>
+
+                        <Link className={styles.link} href={routes.mealPlanner.mask}>
+                            <Text tag="li" view="p-16">
+                                Meal Planner
+                            </Text>
+                        </Link>
                     </ul>
 
                     <div className={styles.userInfo}>
@@ -41,8 +69,8 @@ const Header = observer(() => {
                     </div>
                 </nav>
             </div>
-
-        </header>);
+        </header>
+    );
 })
 
 export default Header;

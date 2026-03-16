@@ -29,7 +29,6 @@
 
     @include respond(lg) {
         width: 55px;
-
     }
 }
 
@@ -38,7 +37,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 
     @include respond(md){
         justify-content: end;
@@ -60,9 +58,10 @@
 }
 
 .pageLinks {
+    height: 28px;
     display: flex;
     gap: 16px;
-    
+    align-items: center;
 
     @include respond(md){
         display: none
@@ -80,8 +79,10 @@
 }
 
 .link{
+    padding-block: 10px;
     color: var(--color-text);
     transition: color 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .link:hover{

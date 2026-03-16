@@ -109,6 +109,13 @@
     margin-bottom: 24px;
 }
 
+.ingsSubtitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
 .descr {
     width: 100%;
     margin-bottom: 48px;
@@ -147,6 +154,20 @@
     }
 }
 
+.ingredientsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    @include respond(sm) {
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
+}
+
 .ingredientsList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -156,6 +177,11 @@
     @include respond(sm) {
         grid-template-columns: 1fr;
     }
+}
+
+.addToShopList{
+    padding: 12px 10px;
+    margin-right: 10px;
 }
 
 .equipmentsList {
@@ -173,8 +199,23 @@
     max-width: 740px;
 }
 
+.dirTitle{
+    font-weight: 700;
+}
+
+.directionsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
 .directionsList {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.startCooking{
+    padding: 12px 10px;
 }

@@ -9,10 +9,14 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRootStore } from '@/shared/store/RootStore';
 import { useRouter } from 'next/navigation';
+import HiddenEye from '@/shared/components/Icons/HiddenEye/HiddenEye';
+import OpenedEye from '@/shared/components/Icons/OpenedEye/OpenedEye';
+import ButtonEye from '@components/ButtonEye';
 
 const Login = observer(() => {
     const [identifier, setIdentifier] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const { userStore } = useRootStore()
     const router = useRouter()
 
@@ -46,11 +50,14 @@ const Login = observer(() => {
                     <Input
                         id='loginPassword'
                         style={{ width: '100%' }}
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={setPassword}
                         placeholder='Your password'
-                        required />
+                        required
+                        afterSlot={
+                           <ButtonEye show={showPassword} setIsShow={setShowPassword}/>
+                        } />
                 </div>
 
                 <div className={styles.bottomContainer}>

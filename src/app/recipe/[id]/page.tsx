@@ -1,6 +1,6 @@
 'use client'
 import styles from './Recipe.module.scss'
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import RecipeStore from "@shared/store/RecipeStore";
 import { useLocalStore } from "@shared/hooks";
@@ -13,8 +13,13 @@ import ArrowBack from "@components/Icons/ArrowBack";
 import AboutItem from "@components/AboutItem";
 import Loader from "@components/Loader";
 import Text from "@components/Text";
+import ServingsCounter from "@components/ServingsCounter";
+import Button from "@components/Button";
+import InteractiveChefView from "@components/InteractiveChefView";
+import { useRootStore } from '@/shared/store/RootStore';
 import parse from 'html-react-parser';
 import Image from 'next/image';
+import classNames from 'classnames';
 
 const Recipe = observer(() => {
     const params = useParams()
@@ -22,6 +27,7 @@ const Recipe = observer(() => {
     const id = params.id as string
 
     const store = useLocalStore(() => new RecipeStore())
+    const { shoppingStore } = useRootStore()
 
     useEffect(() => {
         if (id) {
@@ -38,6 +44,24 @@ const Recipe = observer(() => {
     const isLoading = store.meta === 'loading'
     const isError = store.meta === 'error'
     const recipe = store.recipe ? toJS(store.recipe) : null
+
+    const [currentServings, setCurrentServings] = useState<number | null>(null)
+    const [isChefModeOpen, setIsChefModeOpen] = useState(false)
+    const [addedToList, setAddedToList] = useState(false)
+    const servings = currentServings ?? recipe?.servings ?? 1
+    const ratio = recipe ? servings / recipe.servings : 1
+
+    const handleAddToShoppingList = useCallback(() => {
+        if (!recipe) return
+        shoppingStore.addIngredients(
+            recipe.ingredients.map(i => ({
+                name: i.name,
+                amount: parseFloat((i.amount * ratio).toFixed(2)),
+                unit: i.unit,
+            }))
+        )
+        setAddedToList(true)
+    }, [recipe, ratio, shoppingStore])
 
     if (isLoading) {
         return (
@@ -91,11 +115,26 @@ const Recipe = observer(() => {
 
             <div className={styles.thingsContainer}>
                 <div className={styles.ingredients}>
-                    <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Ingredients</Text>
+                    <div className={styles.ingredientsHeader}>
+                        <Text
+                            tag="h3"
+                            view='p-20'
+                            color='primary'
+                            className={classNames(styles.subtitle, styles.ingsSubtitle)}>
+                            Ingredients for <ServingsCounter value={servings} onChange={setCurrentServings} /> servings
+                        </Text>
+                        <Button className={styles.addToShopList} onClick={handleAddToShoppingList}>
+                            {addedToList ? 'Added' : 'Add to shopping list'}
+                        </Button>
+                    </div>
                     <ul className={styles.ingredientsList}>
                         {
                             recipe.ingredients.map(ingredient =>
-                                <Ingredient key={ingredient.id} {...ingredient} />
+                                <Ingredient
+                                    key={ingredient.id}
+                                    {...ingredient}
+                                    amount={parseFloat((ingredient.amount * ratio).toFixed(2))}
+                                />
                             )
                         }
                     </ul>
@@ -114,7 +153,12 @@ const Recipe = observer(() => {
             </div>
 
             <div className={styles.directions}>
-                <Text tag="h3" view='p-20' color='primary' className={styles.subtitle}>Directions</Text>
+                <div className={styles.directionsHeader}>
+                    <Text tag="h3" view='p-20' color='primary' className={styles.dirTitle}>Directions</Text>
+                    <Button className={styles.startCooking} onClick={() => setIsChefModeOpen(true)}>
+                        Start Cooking
+                    </Button>
+                </div>
                 <ul className={styles.directionsList}>
                     {
                         recipe.directions.map((direction, index) =>
@@ -123,6 +167,12 @@ const Recipe = observer(() => {
                     }
                 </ul>
             </div>
+
+            <InteractiveChefView
+                isOpen={isChefModeOpen}
+                onClose={() => setIsChefModeOpen(false)}
+                directions={recipe.directions}
+            />
         </div>
     );
 })

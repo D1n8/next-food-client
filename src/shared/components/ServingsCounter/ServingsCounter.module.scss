@@ -1,0 +1,43 @@
+.root {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.btn {
+    padding: 0;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    outline: 1px solid var(--color-brand);
+    background: none;
+    color: var(--color-brand);
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-brand);
+        color: var(--color-white);
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+.input {
+    width: 35px;
+    height: 24px;
+    text-align: center;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    background: none;
+    color: var(--color-text);
+    font-size: 16px;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        appearance: none;
+    }
+}

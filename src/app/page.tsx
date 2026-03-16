@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, useCallback, useEffect } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import styles from './RecipesList.module.scss';
 import RecipeCard from '@components/RecipeCard';
 import Button from '@components/Button';
@@ -22,8 +22,11 @@ import ScrollToTop from '@components/ScrollToTop';
 import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
 import { useSearchParams } from 'next/navigation';
+import IngredientFilter from '@components/IngredientFilter';
+import { Meta, QueryParams } from '@/shared/types/shared';
 
 const RecipesListContent = observer(() => {
+    const [allFiltersIsOpen, setAllFiltersIsOpen] = useState(false)
     const router = useRouter()
     const recipeListStore = useLocalStore(() => new RecipeListStore())
     const favoritesStore = useLocalStore(() => new FavoritesStore())
@@ -33,12 +36,16 @@ const RecipesListContent = observer(() => {
     const listKey = searchParams.toString() || 'default-list'
 
     useEffect(() => {
-        const query = searchParams.get('name') || ''
-        const sort = searchParams.get('sort-by') || ''
-        const isVegetarian = searchParams.get('vegetarian') === 'true'
-        const categoriesParam = searchParams.get('categories')
+        const query = searchParams.get(QueryParams.Name) || ''
+        const sort = searchParams.get(QueryParams.SortBy) || ''
+        const isVegetarian = searchParams.get(QueryParams.Vegetarian) === 'true'
+        const categoriesParam = searchParams.get(QueryParams.Categories)
         const categories = categoriesParam ? categoriesParam.split(',') : []
-        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian )
+        const ingsIncludedParam = searchParams.get(QueryParams.IngredientsIncluded)
+        const ingsIncluded = ingsIncludedParam ? ingsIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
+        const ingsExcludedParam = searchParams.get(QueryParams.IngredientsExcluded)
+        const ingsExcluded = ingsExcludedParam ? ingsExcludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
+        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded, ingsExcluded)
     }, [recipeListStore, searchParams])
 
     useEffect(() => {
@@ -66,8 +73,12 @@ const RecipesListContent = observer(() => {
         }
     }, [favoritesStore, isAuth, router])
 
-    const isLoading = recipeListStore.meta === 'loading'
-    const isError = recipeListStore.meta === 'error'
+    const toggleFilters = () => {
+        setAllFiltersIsOpen(prev => !prev)
+    }
+
+    const isLoading = recipeListStore.meta === Meta.Loading || recipeListStore.meta === Meta.Initial
+    const isError = recipeListStore.meta === Meta.Error
     const recipes = toJS(recipeListStore.list)
 
     return (
@@ -81,13 +92,25 @@ const RecipesListContent = observer(() => {
                     color='primary'
                     tag='h2'>Find the perfect food and <u>drink ideas</u> for every occasion, from <u>weeknight dinners</u> to <u>holiday feasts</u>.</Text>
 
-                <Search />
-                <div className={styles.filtersContainer}>
-                    <div className={styles.filtersBox}>
-                        <SortDropdown />
-                        <VegetarianCheckbox />
+                <div className={styles.filtersSection}>
+                    <Search />
+
+                    <div className={`${styles.filtersWrapper} ${allFiltersIsOpen ? styles.isOpen : ''}`}>
+                        <div className={styles.deepFilters}>
+                            <div className={styles.filtersContainer}>
+                                <div className={styles.filtersBox}>
+                                    <SortDropdown />
+                                    <VegetarianCheckbox />
+                                </div>
+                                <CategoryDropdown />
+                            </div>
+                            <IngredientFilter />
+                        </div>
                     </div>
-                    <CategoryDropdown />
+
+                    <Button className={styles.toogleBtn} onClick={toggleFilters}>
+                        {allFiltersIsOpen ? 'Hide filters' : 'All filters'}
+                    </Button>
                 </div>
 
                 <InfiniteScroll

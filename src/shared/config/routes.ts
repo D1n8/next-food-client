@@ -26,5 +26,13 @@ export const routes = {
     profile: {
         mask: '/profile',
         create: () => '/profile'
+    },
+    shoppingList: {
+        mask: '/shopping-list',
+        create: () => '/shopping-list'
+    },
+    mealPlanner: {
+        mask: '/meal-planner',
+        create: () => '/meal-planner'
     }
 }
