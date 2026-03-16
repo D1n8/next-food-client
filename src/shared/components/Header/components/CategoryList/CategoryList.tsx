@@ -2,12 +2,13 @@
 import { useLocalStore } from '@/shared/hooks';
 import styles from './CategoryList.module.scss'
 import CategoryStore from '@/shared/store/CategoryStore';
-import { useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import Text from '@/shared/components/Text';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { QueryParams } from '@/shared/types/shared';
 import { routes } from '@/shared/config/routes';
 import classNames from 'classnames';
+import Loader from '@/shared/components/Loader';
 
 interface ICategoryList {
     visible: boolean,
@@ -16,7 +17,7 @@ interface ICategoryList {
     backToMenu?: () => void
 }
 
-function CategoryList({ visible, onClose, isMobile, backToMenu }: ICategoryList) {
+function CategoryListMenu({ visible, onClose, isMobile, backToMenu }: ICategoryList) {
     const store = useLocalStore(() => new CategoryStore())
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -74,4 +75,10 @@ function CategoryList({ visible, onClose, isMobile, backToMenu }: ICategoryList)
     );
 }
 
-export default CategoryList;
+export default function CategoryList(props: ICategoryList) {
+    return (
+        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}><Loader size='l' /></div>}>
+            <CategoryListMenu {...props}/>
+        </Suspense>
+    );
+}
