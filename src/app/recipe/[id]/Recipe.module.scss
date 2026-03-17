@@ -61,7 +61,7 @@
     }
 
     @include respond(md) {
-        gap: 50px;
+        gap: 20px;
     }
 
     @include respond(sm) {
@@ -78,6 +78,11 @@
 
     @include respond(xl) {
         width: 350px;
+        height: 250px;
+    }
+    
+    @include respond(lg) {
+        width: 250px;
         height: 250px;
     }
 

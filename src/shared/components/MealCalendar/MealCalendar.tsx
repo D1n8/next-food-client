@@ -96,9 +96,9 @@ const MealCalendar: React.FC = observer(() => {
                     <Text color='primary' className={styles.sidebarTitle}>Favorites</Text>
                     <div className={styles.favoritesList}>
                         {favoritesStore.favorites.length === 0 ? (
-                            <div className={styles.emptyFavorites}>
+                            <Text color='primary' className={styles.emptyFavorites}>
                                 No favorite recipes
-                            </div>
+                            </Text>
                         ) : (
                             favoritesStore.favorites.map(fav => (
                                 <DraggableRecipeCard
@@ -138,7 +138,7 @@ const MealCalendar: React.FC = observer(() => {
             <DragOverlay>
                 {activeRecipe ? (
                     <DraggableRecipeCard
-                        id="overlay-card" // ⬅️ ДОБАВИЛИ ID
+                        id="overlay-card"
                         recipe={activeRecipe}
                         isOverlay />
                 ) : null}
