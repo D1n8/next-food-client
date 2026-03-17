@@ -1,3 +1,4 @@
+import { BASE_URL } from "@shared/consts";
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";
@@ -35,7 +36,7 @@ export default class RecipeStore implements ILocalStore {
         try {
             const response = await axios({
                 method: "GET",
-                url: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes/${id}`,
+                url: `${BASE_URL}/recipes/${id}`,
                 params: { populate: ['ingradients', 'equipments', 'directions.image', 'images', 'category'] },
                 paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
             })

@@ -3,6 +3,7 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import qs from "qs";
 import { normalizeRecipe, type IRecipeApi, type IRecipeModel } from "../models/recipe";
 import { Meta, type ILocalStore } from "../../types/shared";
+import { BASE_URL } from "@/shared/consts";
 
 type PrivateFields = '_list' | '_meta' | '_hasMore' | '_selectedCategories'
 
@@ -107,7 +108,7 @@ export default class RecipeListStore implements ILocalStore {
 
                 const badRes = await axios({
                     method: "GET",
-                    url: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes`,
+                    url: `${BASE_URL}/recipes`,
                     params: badParams,
                     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
                 });
@@ -172,7 +173,7 @@ export default class RecipeListStore implements ILocalStore {
 
             const response = await axios({
                 method: "GET",
-                url: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes`,
+                url: `${BASE_URL}/recipes`,
                 params: queryParams,
                 paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
             })

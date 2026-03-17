@@ -2,6 +2,7 @@ import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import type { Category } from "@shared/store/models/recipe";
 import { Meta, type ILocalStore } from "@shared/types/shared";
+import { BASE_URL } from "@/shared/consts";
 
 type PrivateFields = '_list' | '_meta'
 
@@ -34,7 +35,7 @@ export default class CategoryStore implements ILocalStore {
         try {
             const response = await axios({
                 method: "GET",
-                url: `${process.env.NEXT_PUBLIC_BASE_URL}/meal-categories`
+                url: `${BASE_URL}/meal-categories`
             })
 
             runInAction(() => {

@@ -2,6 +2,7 @@ import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { LocalStorageItem } from "@shared/types/shared"
 import type { IUser } from "@shared/store/models/user"
+import { BASE_URL } from "@/shared/consts"
 
 type PrivateFields = '_isInit' | '_error' | '_isLoading' | '_user'
 
@@ -63,7 +64,7 @@ export default class UserStore {
         }
 
         try {
-            const response = await axios.get<IUser>(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me`, {
+            const response = await axios.get<IUser>(`${BASE_URL}/users/me`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
