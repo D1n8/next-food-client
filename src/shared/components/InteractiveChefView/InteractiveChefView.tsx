@@ -173,14 +173,14 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
 
                     <div className={styles.navigation}>
                         <Button
-                            className={styles.navButton}
+                            className={classNames(styles.navButton, styles.moveButton)}
                             onClick={() => store.prevStep()}
                             disabled={store.currentStepIndex === 0}
                         >
                             Back
                         </Button>
                         <Button
-                            className={classNames(styles.navButton, styles.nextButton)}
+                            className={classNames(styles.navButton, styles.moveButton)}
                             onClick={() => store.nextStep()}
                             disabled={store.currentStepIndex === store.totalSteps - 1}
                         >

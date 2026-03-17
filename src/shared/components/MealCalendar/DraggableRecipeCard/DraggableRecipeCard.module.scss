@@ -8,7 +8,7 @@
     cursor: grab;
     position: relative;
     transition: all 0.2s ease-in-out;
-    box-shadow: 0px 2px 8px var(--color-shadow);
+    box-shadow: 0px 1px 2px var(--color-shadow);
 
     &:hover{
         transform: translateY(-1px);

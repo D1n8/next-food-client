@@ -47,7 +47,6 @@ const MealCalendar: React.FC = observer(() => {
 
         const overId = over.id as string
 
-        // Check if dropping on a day column
         const isDroppingOnDay = /^\d{4}-\d{2}-\d{2}$/.test(overId)
 
         if (isDroppingOnDay) {
@@ -59,7 +58,6 @@ const MealCalendar: React.FC = observer(() => {
                     mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
                 }
             } else {
-                // Adding from favorites
                 mealPlannerStore.addRecipeToDate(overId, recipe)
                 mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
             }
@@ -105,7 +103,9 @@ const MealCalendar: React.FC = observer(() => {
                             favoritesStore.favorites.map(fav => (
                                 <DraggableRecipeCard
                                     key={fav.id}
+                                    id={`fav-${fav.recipe.id}`}
                                     recipe={fav.recipe}
+                                    dragData={{ recipe: fav.recipe, isInCalendar: false }}
                                 />
                             ))
                         )}
@@ -137,7 +137,10 @@ const MealCalendar: React.FC = observer(() => {
 
             <DragOverlay>
                 {activeRecipe ? (
-                    <DraggableRecipeCard recipe={activeRecipe} />
+                    <DraggableRecipeCard
+                        id="overlay-card" // ⬅️ ДОБАВИЛИ ID
+                        recipe={activeRecipe}
+                        isOverlay />
                 ) : null}
             </DragOverlay>
         </DndContext>
