@@ -157,3 +157,17 @@
     border-radius: 10px;
     outline: 1px solid var(--color-brand)
 }
+
+.notFoundPage{
+    margin-top: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.errorPage{
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+}
