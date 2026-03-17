@@ -1,4 +1,3 @@
-import { BASE_URL } from "@shared/consts"
 import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import qs from "qs"
@@ -41,7 +40,7 @@ export default class FavoritesStore implements ILocalStore {
     async fetchFavorites() {
         this._isLoading = true
         try {
-            const response = await axios.get<IFavoriteApi[]>(`${BASE_URL}/favorites`,
+            const response = await axios.get<IFavoriteApi[]>(`${process.env.NEXT_PUBLIC_BASE_URL}/favorites`,
                 {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem(LocalStorageItem.JWT)}`
@@ -73,7 +72,7 @@ export default class FavoritesStore implements ILocalStore {
     async addToFavorites(id: number) {
         this._isLoading = true
         try {
-            await axios.post(`${BASE_URL}/favorites/add`,
+            await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/favorites/add`,
                 { recipe: id },
                 { headers: { 'Authorization': `Bearer ${localStorage.getItem(LocalStorageItem.JWT)}` } }
             )
@@ -88,7 +87,7 @@ export default class FavoritesStore implements ILocalStore {
     async removeFromFavorites(id: number) {
         this._isLoading = true
         try {
-            await axios.post(`${BASE_URL}/favorites/remove`,
+            await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/favorites/remove`,
                 { recipe: id },
                 { headers: { 'Authorization': `Bearer ${localStorage.getItem(LocalStorageItem.JWT)}` } }
             )

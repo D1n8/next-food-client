@@ -8,7 +8,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { QueryParams } from '@/shared/types/shared';
 import { routes } from '@/shared/config/routes';
 import classNames from 'classnames';
-import Loader from '@/shared/components/Loader';
 
 interface ICategoryList {
     visible: boolean,

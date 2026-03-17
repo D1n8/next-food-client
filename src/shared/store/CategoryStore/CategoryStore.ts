@@ -1,4 +1,3 @@
-import { BASE_URL } from "@shared/consts";
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import type { Category } from "@shared/store/models/recipe";
@@ -35,7 +34,7 @@ export default class CategoryStore implements ILocalStore {
         try {
             const response = await axios({
                 method: "GET",
-                url: `${BASE_URL}/meal-categories`
+                url: `${process.env.NEXT_PUBLIC_BASE_URL}/meal-categories`
             })
 
             runInAction(() => {

@@ -1,4 +1,3 @@
-import { BASE_URL } from "@shared/consts"
 import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { LocalStorageItem } from "@shared/types/shared"
@@ -64,7 +63,7 @@ export default class UserStore {
         }
 
         try {
-            const response = await axios.get<IUser>(`${BASE_URL}/users/me`, {
+            const response = await axios.get<IUser>(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -88,7 +87,7 @@ export default class UserStore {
         this._isLoading = true
 
         try {
-            const response = await axios.post(`${BASE_URL}/auth/local`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/local`, {
                 identifier: identifier,
                 password: password
             })
@@ -119,7 +118,7 @@ export default class UserStore {
         this._isLoading = true
 
         try {
-            const response = await axios.post(`${BASE_URL}/auth/local/register`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/local/register`, {
                 username: username,
                 email: email,
                 password: password

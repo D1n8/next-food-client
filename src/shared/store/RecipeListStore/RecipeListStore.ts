@@ -1,4 +1,3 @@
-import { BASE_URL } from '@shared/consts'
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";
@@ -108,7 +107,7 @@ export default class RecipeListStore implements ILocalStore {
 
                 const badRes = await axios({
                     method: "GET",
-                    url: `${BASE_URL}/recipes`,
+                    url: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes`,
                     params: badParams,
                     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
                 });
@@ -173,7 +172,7 @@ export default class RecipeListStore implements ILocalStore {
 
             const response = await axios({
                 method: "GET",
-                url: `${BASE_URL}/recipes`,
+                url: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes`,
                 params: queryParams,
                 paramsSerializer: params => qs.stringify(params, { arrayFormat: 'indices' })
             })
