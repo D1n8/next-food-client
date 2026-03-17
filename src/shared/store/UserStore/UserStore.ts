@@ -1,8 +1,8 @@
-import { BASE_URL } from "@shared/consts"
 import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { LocalStorageItem } from "@shared/types/shared"
 import type { IUser } from "@shared/store/models/user"
+import { BASE_URL } from "@/shared/consts"
 
 type PrivateFields = '_isInit' | '_error' | '_isLoading' | '_user'
 

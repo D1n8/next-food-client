@@ -1,9 +1,9 @@
-import { BASE_URL } from "@shared/consts"
 import axios from "axios"
 import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import qs from "qs"
 import { LocalStorageItem, type ILocalStore } from "@shared/types/shared"
 import { type IFavoriteModel, type IFavoriteApi, normalizeRecipe } from "@shared/store/models/recipe"
+import { BASE_URL } from "@/shared/consts"
 
 type PrivateFields = '_favorites' | '_isLoading'
 

@@ -3,7 +3,7 @@ import styles from './CloseButton.module.scss'
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     className?: string,
-    onClick?: () => void
+    onClick?: (e: any) => void
 };
 
 const CloseButton: React.FC<ButtonProps> = ({ className, onClick }) => {

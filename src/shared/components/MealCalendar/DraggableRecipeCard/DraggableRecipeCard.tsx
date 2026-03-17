@@ -5,29 +5,42 @@ import { IRecipeModel } from '@/shared/store/models/recipe'
 import styles from './DraggableRecipeCard.module.scss'
 import classNames from 'classnames'
 import Text from '../../Text'
-import Button from '../../Button'
+import { useRouter } from 'next/navigation'
+import { routes } from '@/shared/config/routes'
+import CloseButton from '../../CloseButton'
 
 export type DraggableRecipeCardProps = {
-    recipe: IRecipeModel
-    onRemove?: () => void
-    isInCalendar?: boolean
-    date?: string
+    id: string,
+    recipe: IRecipeModel,
+    onRemove?: () => void,
+    dragData?: Record<string, any>
+    isOverlay?: boolean
 }
 
-const DraggableRecipeCard: React.FC<DraggableRecipeCardProps> = ({ recipe, onRemove, isInCalendar = false, date }) => {
+const DraggableRecipeCard: React.FC<DraggableRecipeCardProps> = ({ recipe, onRemove, id, dragData, isOverlay = false }) => {
+    const router = useRouter()
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-        id: isInCalendar && date ? `${date}-${recipe.id}-${recipe.documentId}` : `fav-${recipe.id}`,
-        data: { recipe, isInCalendar, date }
+        id: id,
+        data: dragData || { recipe },
+        disabled: isOverlay
     })
 
     const imageUrl = recipe.images?.[0]?.formats?.small?.url || recipe.images?.[0]?.url || ''
 
+    const handleClose = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if (onRemove)
+            onRemove()
+    }
+
+    const shouldShowDragging = isDragging && !isOverlay;
+
     return (
         <div
-            ref={setNodeRef}
-            className={classNames(styles.card, { [styles.dragging]: isDragging })}
-            {...listeners}
-            {...attributes}
+             ref={isOverlay ? undefined : setNodeRef}
+            className={classNames(styles.card, { [styles.dragging]: shouldShowDragging })}
+            {...(isOverlay ? {} : listeners)} 
+            {...(isOverlay ? {} : attributes)}
         >
             {imageUrl && (
                 <div className={styles.image}>
@@ -35,24 +48,17 @@ const DraggableRecipeCard: React.FC<DraggableRecipeCardProps> = ({ recipe, onRem
                 </div>
             )}
 
-            <div className={styles.info}>
+            <div className={styles.info} onClick={() => router.push(routes.recipe.create(recipe.documentId))}>
                 <Text color='primary' className={styles.name}>{recipe.name}</Text>
                 {recipe.totalTime > 0 && (
                     <Text color='primary' className={styles.time}>{recipe.totalTime} min</Text>
                 )}
             </div>
 
-            {isInCalendar && onRemove && (
-                <button
-                    className={styles.removeBtn}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        onRemove()
-                    }}
-                    onPointerDown={(e) => e.stopPropagation()}
-                >
-                    ×
-                </button>
+            {onRemove && (
+                <CloseButton
+                    onClick={handleClose}
+                    onPointerDown={(e) => e.stopPropagation()} />
             )}
         </div>
     )

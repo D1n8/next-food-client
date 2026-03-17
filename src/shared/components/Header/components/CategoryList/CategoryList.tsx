@@ -1,5 +1,5 @@
 'use client'
-import { useLocalStore } from '@/shared/hooks';
+import { useLocalStore } from '@/shared/hooks/useLocalStore';
 import styles from './CategoryList.module.scss'
 import CategoryStore from '@/shared/store/CategoryStore';
 import { Suspense, useEffect, useMemo } from 'react';
@@ -8,7 +8,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { QueryParams } from '@/shared/types/shared';
 import { routes } from '@/shared/config/routes';
 import classNames from 'classnames';
-import Loader from '@/shared/components/Loader';
 
 interface ICategoryList {
     visible: boolean,
@@ -77,7 +76,7 @@ function CategoryListMenu({ visible, onClose, isMobile, backToMenu }: ICategoryL
 
 export default function CategoryList(props: ICategoryList) {
     return (
-        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}><Loader size='l' /></div>}>
+        <Suspense fallback={<div></div>}>
             <CategoryListMenu {...props}/>
         </Suspense>
     );

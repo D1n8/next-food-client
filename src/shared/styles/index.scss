@@ -11,7 +11,7 @@
     --color-hover: rgba(255, 255, 255, 0.6);
     --color-red: #f44336;
     --color-red-hover: #d32f2f;
-    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow: rgba(0, 0, 0, 0.5);
 }
 
 [data-theme='dark'] {
@@ -27,7 +27,7 @@
     --color-hover: rgba(255, 255, 255, 0.2);
     --color-red: #f44336;
     --color-red-hover: #d32f2f;
-    --color-shadow: rgba(255, 255, 255, 0.1);
+    --color-shadow: rgba(255, 255, 255, 0.5);
 }
 
 * {

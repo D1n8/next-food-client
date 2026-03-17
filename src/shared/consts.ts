@@ -1,1 +1,1 @@
-export const BASE_URL='https://front-school-strapi.ktsdev.ru/api'
+export const BASE_URL = 'https://front-school-strapi.ktsdev.ru/api'

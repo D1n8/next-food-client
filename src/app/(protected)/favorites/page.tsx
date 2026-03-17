@@ -8,7 +8,7 @@ import Text from '@components/Text';
 import Button from '@components/Button';
 import { useRouter } from 'next/navigation';
 import FavoritesStore from '@shared/store/FavoritesStore';
-import { useLocalStore } from '@shared/hooks';
+import { useLocalStore } from '@shared/hooks/useLocalStore';
 import Loader from '@components/Loader';
 import { routes } from '@config/routes';
 import CaptionSlot from '@components/CaptionSlot';

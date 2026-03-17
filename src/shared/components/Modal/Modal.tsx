@@ -1,9 +1,10 @@
 'use client'
-import React, { useEffect, useCallback } from 'react'
+import React from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import styles from './Modal.module.scss'
 import Close from '../CloseButton'
+import { useModal } from '@shared/hooks/useModal'
 
 export type ModalProps = {
     isOpen: boolean
@@ -13,23 +14,14 @@ export type ModalProps = {
     showCloseButton?: boolean
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, children, className, onClose, showCloseButton = true }) => {
-    const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'Escape' && onClose) {
-            onClose()
-        }
-    }, [onClose])
-
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden'
-            window.addEventListener('keydown', handleKeyDown)
-        }
-        return () => {
-            document.body.style.overflow = ''
-            window.removeEventListener('keydown', handleKeyDown)
-        }
-    }, [isOpen, handleKeyDown])
+const Modal: React.FC<ModalProps> = ({ 
+    isOpen, 
+    children, 
+    className, 
+    onClose, 
+    showCloseButton = true 
+}) => {
+    useModal(isOpen, onClose)
 
     const handleBackdropClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget && onClose) {
@@ -38,12 +30,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, children, className, onClose, sho
     }
 
     if (!isOpen) return null
+    if (typeof document === 'undefined') return null
 
     return createPortal(
         <div className={styles.backdrop} onClick={handleBackdropClick}>
             <div className={classNames(styles.modal, className)}>
                 {showCloseButton && onClose && (
-                    <Close className={styles.closeButton} onClick={onClose} color='rgba(175, 173, 181, 1)'/>
+                    <Close 
+                        className={styles.closeButton} 
+                        onClick={onClose} 
+                        color='rgba(175, 173, 181, 1)' 
+                    />
                 )}
                 {children}
             </div>

@@ -38,16 +38,18 @@ const DayColumn: React.FC<DayColumnProps> = ({ date, recipes, onRemoveRecipe }) 
                 {recipes.length === 0 ? (
                     <Text color='primary' className={styles.empty}>Drag and drop recipe</Text>
                 ) : (
-                    recipes.map(recipe => (
-                        <DraggableRecipeCard
-                            key={`${date}-${recipe.id}-${recipe.documentId}`}
+                    recipes.map(recipe => {
+                        const uniqueId = `${date}-${recipe.id}-${recipe.documentId}`
+                        return (<DraggableRecipeCard
+                            key={uniqueId}
+                            id={uniqueId}
                             recipe={recipe}
-                            isInCalendar
-                            date={date}
+                            dragData={{ recipe, isInCalendar: true, date }}
                             onRemove={() => onRemoveRecipe(recipe.id)}
-                        />
-                    ))
-                )}
+                        />)
+                    })
+                )
+                }
             </div>
         </div>
     )

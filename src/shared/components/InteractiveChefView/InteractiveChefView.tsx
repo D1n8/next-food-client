@@ -8,7 +8,7 @@ import Button from '@components/Button'
 import Text from '@components/Text'
 import CookingStore from '@shared/store/CookingStore'
 import { parseTimesFromText, formatTime, playBeep } from './utils/parseTime'
-import { useLocalStore } from '@/shared/hooks'
+import { useLocalStore } from '@/shared/hooks/useLocalStore'
 import PlayButton from './components/PlayButton'
 import PauseButton from './components/PauseButton'
 import ResetButton from './components/ResetButton'
@@ -173,14 +173,14 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
 
                     <div className={styles.navigation}>
                         <Button
-                            className={styles.navButton}
+                            className={classNames(styles.navButton, styles.moveButton)}
                             onClick={() => store.prevStep()}
                             disabled={store.currentStepIndex === 0}
                         >
                             Back
                         </Button>
                         <Button
-                            className={classNames(styles.navButton, styles.nextButton)}
+                            className={classNames(styles.navButton, styles.moveButton)}
                             onClick={() => store.nextStep()}
                             disabled={store.currentStepIndex === store.totalSteps - 1}
                         >

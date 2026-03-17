@@ -1,4 +1,4 @@
-import { BASE_URL } from "@shared/consts";
+import { BASE_URL } from "@/shared/consts";
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";

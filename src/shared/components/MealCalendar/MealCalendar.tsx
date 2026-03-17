@@ -2,14 +2,15 @@
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, DragStartEvent } from '@dnd-kit/core'
-import { addDays, subDays, format } from 'date-fns'
+import { addDays, subDays } from 'date-fns'
 import { useRootStore } from '@/shared/store/RootStore'
-import { useLocalStore } from '@shared/hooks'
+import { useLocalStore } from '@shared/hooks/useLocalStore'
 import FavoritesStore from '@shared/store/FavoritesStore'
 import { IRecipeModel } from '@shared/store/models/recipe'
 import DayColumn from './DayColumn'
 import DraggableRecipeCard from './DraggableRecipeCard'
 import styles from './MealCalendar.module.scss'
+import { getWeekLabel } from './weekLabel'
 import Text from '../Text'
 import Button from '../Button'
 
@@ -47,7 +48,6 @@ const MealCalendar: React.FC = observer(() => {
 
         const overId = over.id as string
 
-        // Check if dropping on a day column
         const isDroppingOnDay = /^\d{4}-\d{2}-\d{2}$/.test(overId)
 
         if (isDroppingOnDay) {
@@ -59,7 +59,6 @@ const MealCalendar: React.FC = observer(() => {
                     mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
                 }
             } else {
-                // Adding from favorites
                 mealPlannerStore.addRecipeToDate(overId, recipe)
                 mealPlannerStore.syncIngredientsToShoppingList(shoppingStore)
             }
@@ -84,8 +83,7 @@ const MealCalendar: React.FC = observer(() => {
     }
 
     const weekStart = mealPlannerStore.currentWeekStart
-    const weekEnd = addDays(weekStart, 6)
-    const weekLabel = `${format(weekStart, 'd MMM')} - ${format(weekEnd, 'd MMM yyyy')}`
+    const weekLabel = getWeekLabel(weekStart)
 
     return (
         <DndContext
@@ -98,14 +96,16 @@ const MealCalendar: React.FC = observer(() => {
                     <Text color='primary' className={styles.sidebarTitle}>Favorites</Text>
                     <div className={styles.favoritesList}>
                         {favoritesStore.favorites.length === 0 ? (
-                            <div className={styles.emptyFavorites}>
+                            <Text color='primary' className={styles.emptyFavorites}>
                                 No favorite recipes
-                            </div>
+                            </Text>
                         ) : (
                             favoritesStore.favorites.map(fav => (
                                 <DraggableRecipeCard
                                     key={fav.id}
+                                    id={`fav-${fav.recipe.id}`}
                                     recipe={fav.recipe}
+                                    dragData={{ recipe: fav.recipe, isInCalendar: false }}
                                 />
                             ))
                         )}
@@ -137,7 +137,10 @@ const MealCalendar: React.FC = observer(() => {
 
             <DragOverlay>
                 {activeRecipe ? (
-                    <DraggableRecipeCard recipe={activeRecipe} />
+                    <DraggableRecipeCard
+                        id="overlay-card"
+                        recipe={activeRecipe}
+                        isOverlay />
                 ) : null}
             </DragOverlay>
         </DndContext>

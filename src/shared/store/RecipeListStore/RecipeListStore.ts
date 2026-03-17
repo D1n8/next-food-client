@@ -1,9 +1,9 @@
-import { BASE_URL } from '@shared/consts'
 import axios from "axios";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import qs from "qs";
 import { normalizeRecipe, type IRecipeApi, type IRecipeModel } from "../models/recipe";
 import { Meta, type ILocalStore } from "../../types/shared";
+import { BASE_URL } from "@/shared/consts";
 
 type PrivateFields = '_list' | '_meta' | '_hasMore' | '_selectedCategories'
 
@@ -32,7 +32,9 @@ export default class RecipeListStore implements ILocalStore {
 
             list: computed,
             meta: computed,
-            hasMore: computed
+            hasMore: computed,
+            // isError: computed,
+            // isLoading: computed
         });
 
         if (initialData && initialData.length > 0) {
@@ -53,6 +55,14 @@ export default class RecipeListStore implements ILocalStore {
 
     get hasMore(): boolean {
         return this._hasMore
+    }
+
+    get isError(): boolean {
+        return this._meta === Meta.Error
+    }
+
+    get isLoading(): boolean {
+        return this._meta === Meta.Loading || this._meta === Meta.Initial
     }
 
     destroy() { }
