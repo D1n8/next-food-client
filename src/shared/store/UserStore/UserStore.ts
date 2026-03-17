@@ -88,7 +88,7 @@ export default class UserStore {
         this._isLoading = true
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/local`, {
+            const response = await axios.post(`${BASE_URL}/auth/local`, {
                 identifier: identifier,
                 password: password
             })
@@ -119,7 +119,7 @@ export default class UserStore {
         this._isLoading = true
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/local/register`, {
+            const response = await axios.post(`${BASE_URL}/auth/local/register`, {
                 username: username,
                 email: email,
                 password: password

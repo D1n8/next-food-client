@@ -24,7 +24,6 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
   try {
     recipe = await getRecipe(id)
   } catch {
-    recipe = null
   }
 
   if (!recipe) {

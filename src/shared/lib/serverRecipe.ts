@@ -1,5 +1,6 @@
 import { normalizeFullRecipe, IFullRecipeModel } from '@shared/store/models/recipe'
 import qs from 'qs'
+import { BASE_URL } from '../consts'
 
 export async function getRecipe(id: string): Promise<IFullRecipeModel> {
   const params = {
@@ -8,7 +9,7 @@ export async function getRecipe(id: string): Promise<IFullRecipeModel> {
 
   const queryString = qs.stringify(params, { arrayFormat: 'indices' })
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/recipes/${id}?${queryString}`, {
+  const res = await fetch(`${BASE_URL}/recipes/${id}?${queryString}`, {
     cache: 'no-store'
   })
 
