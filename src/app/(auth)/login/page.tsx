@@ -9,8 +9,6 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRootStore } from '@/shared/store/RootStore';
 import { useRouter } from 'next/navigation';
-import HiddenEye from '@/shared/components/Icons/HiddenEye/HiddenEye';
-import OpenedEye from '@/shared/components/Icons/OpenedEye/OpenedEye';
 import ButtonEye from '@components/ButtonEye';
 
 const Login = observer(() => {

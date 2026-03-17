@@ -4,12 +4,12 @@ import styles from './RecipesList.module.scss';
 import RecipeCard from '@components/RecipeCard';
 import Button from '@components/Button';
 import Text from '@components/Text';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { formatIngredients, formatKcal } from '@shared/utils';
 import Loader from '@components/Loader';
 import { observer } from 'mobx-react-lite';
 import RecipeListStore from '@shared/store/RecipeListStore';
-import { useLocalStore } from '@shared/hooks';
+import { useLocalStore } from '@shared/hooks/useLocalStore';
 import Search from '@components/Search';
 import { toJS } from 'mobx';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -21,9 +21,8 @@ import SortDropdown from '@components/SortDropdown';
 import ScrollToTop from '@components/ScrollToTop';
 import VegetarianCheckbox from '@components/VegetarianCheckbox';
 import { useRootStore } from '@shared/store/RootStore';
-import { useSearchParams } from 'next/navigation';
 import IngredientFilter from '@components/IngredientFilter';
-import { Meta, QueryParams } from '@/shared/types/shared';
+import { useRecipeListFilters } from '@shared/hooks/useRecipeListFilters';
 
 const RecipesListContent = observer(() => {
     const [allFiltersIsOpen, setAllFiltersIsOpen] = useState(false)
@@ -34,19 +33,18 @@ const RecipesListContent = observer(() => {
     const searchParams = useSearchParams()
     const isAuth = userStore.isAuth
     const listKey = searchParams.toString() || 'default-list'
+    const filters = useRecipeListFilters()
 
     useEffect(() => {
-        const query = searchParams.get(QueryParams.Name) || ''
-        const sort = searchParams.get(QueryParams.SortBy) || ''
-        const isVegetarian = searchParams.get(QueryParams.Vegetarian) === 'true'
-        const categoriesParam = searchParams.get(QueryParams.Categories)
-        const categories = categoriesParam ? categoriesParam.split(',') : []
-        const ingsIncludedParam = searchParams.get(QueryParams.IngredientsIncluded)
-        const ingsIncluded = ingsIncludedParam ? ingsIncludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
-        const ingsExcludedParam = searchParams.get(QueryParams.IngredientsExcluded)
-        const ingsExcluded = ingsExcludedParam ? ingsExcludedParam.split(',').map(s => s.trim()).filter(Boolean) : []
-        recipeListStore.fetchRecipeList(query, categories, sort, isVegetarian, ingsIncluded, ingsExcluded)
-    }, [recipeListStore, searchParams])
+        recipeListStore.fetchRecipeList(
+            filters.query,
+            filters.categories,
+            filters.sort,
+            filters.isVegetarian,
+            filters.ingredientsIncluded,
+            filters.ingredientsExcluded
+        )
+    }, [recipeListStore, filters])
 
     useEffect(() => {
         if (isAuth) {
@@ -77,8 +75,6 @@ const RecipesListContent = observer(() => {
         setAllFiltersIsOpen(prev => !prev)
     }
 
-    const isLoading = recipeListStore.meta === Meta.Loading || recipeListStore.meta === Meta.Initial
-    const isError = recipeListStore.meta === Meta.Error
     const recipes = toJS(recipeListStore.list)
 
     return (
@@ -126,7 +122,7 @@ const RecipesListContent = observer(() => {
                 >
                     {
                         <div className={styles.list}>{
-                            (!isError && recipes.length > 0) &&
+                            (!recipeListStore.isError && recipes.length > 0) &&
                             recipes.map(recipe => {
                                 const isFavorite = favoritesStore.favoritesDocIds.has(recipe.documentId)
 
@@ -147,7 +143,7 @@ const RecipesListContent = observer(() => {
                     }
 
                     {
-                        (!isLoading && recipes.length === 0) && (
+                        (!recipeListStore.isLoading && recipes.length === 0) && (
                             <Text color='primary' view="p-18">No recipes found</Text>
                         )
                     }

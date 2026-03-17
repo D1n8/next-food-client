@@ -32,7 +32,9 @@ export default class RecipeListStore implements ILocalStore {
 
             list: computed,
             meta: computed,
-            hasMore: computed
+            hasMore: computed,
+            isError: computed,
+            isLoading: computed
         });
 
         if (initialData && initialData.length > 0) {
@@ -53,6 +55,14 @@ export default class RecipeListStore implements ILocalStore {
 
     get hasMore(): boolean {
         return this._hasMore
+    }
+
+    get isError(): boolean {
+        return this._meta === Meta.Error
+    }
+
+    get isLoading(): boolean {
+        return this._meta === Meta.Loading || this._meta === Meta.Initial
     }
 
     destroy() { }

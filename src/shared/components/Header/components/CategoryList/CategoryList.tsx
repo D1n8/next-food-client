@@ -1,5 +1,5 @@
 'use client'
-import { useLocalStore } from '@/shared/hooks';
+import { useLocalStore } from '@/shared/hooks/useLocalStore';
 import styles from './CategoryList.module.scss'
 import CategoryStore from '@/shared/store/CategoryStore';
 import { Suspense, useEffect, useMemo } from 'react';

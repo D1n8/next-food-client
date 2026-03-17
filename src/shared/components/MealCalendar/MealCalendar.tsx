@@ -2,14 +2,15 @@
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, DragStartEvent } from '@dnd-kit/core'
-import { addDays, subDays, format } from 'date-fns'
+import { addDays, subDays } from 'date-fns'
 import { useRootStore } from '@/shared/store/RootStore'
-import { useLocalStore } from '@shared/hooks'
+import { useLocalStore } from '@shared/hooks/useLocalStore'
 import FavoritesStore from '@shared/store/FavoritesStore'
 import { IRecipeModel } from '@shared/store/models/recipe'
 import DayColumn from './DayColumn'
 import DraggableRecipeCard from './DraggableRecipeCard'
 import styles from './MealCalendar.module.scss'
+import { getWeekLabel } from './weekLabel'
 import Text from '../Text'
 import Button from '../Button'
 
@@ -82,8 +83,7 @@ const MealCalendar: React.FC = observer(() => {
     }
 
     const weekStart = mealPlannerStore.currentWeekStart
-    const weekEnd = addDays(weekStart, 6)
-    const weekLabel = `${format(weekStart, 'd MMM')} - ${format(weekEnd, 'd MMM yyyy')}`
+    const weekLabel = getWeekLabel(weekStart)
 
     return (
         <DndContext
