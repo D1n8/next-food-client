@@ -1,5 +1,5 @@
 'use client'
-import Logo from "@components/Logo";
+import Logo from "@/shared/components/Icons/Logo";
 import Text from "@components/Text";
 import Favorites from "@components/Icons/Favorites";
 import User from "@components/Icons/User";
