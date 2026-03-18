@@ -33,36 +33,22 @@ export default class CookingStore implements ILocalStore {
             startTimer: action,
             pauseTimer: action,
             resetTimer: action,
+            deleteTimer: action,
             tick: action,
         })
     }
 
-    get currentStepIndex() {
-        return this._currentStepIndex
-    }
-
-    get currentStep() {
-        return this._steps[this._currentStepIndex] ?? ''
-    }
-
-    get totalSteps() {
-        return this._steps.length
-    }
-
-    get timers() {
-        return this._timers
-    }
+    get currentStepIndex() { return this._currentStepIndex }
+    get currentStep() { return this._steps[this._currentStepIndex] ?? '' }
+    get totalSteps() { return this._steps.length }
+    get timers() { return this._timers }
 
     nextStep() {
-        if (this._currentStepIndex < this._steps.length - 1) {
-            this._currentStepIndex++
-        }
+        if (this._currentStepIndex < this._steps.length - 1) this._currentStepIndex++
     }
 
     prevStep() {
-        if (this._currentStepIndex > 0) {
-            this._currentStepIndex--
-        }
+        if (this._currentStepIndex > 0) this._currentStepIndex--
     }
 
     startTimer(id: string, durationSeconds: number, label: string) {
@@ -71,7 +57,6 @@ export default class CookingStore implements ILocalStore {
             if (existing.isFinished || existing.remainingTime <= 0) {
                 existing.remainingTime = existing.initialDuration;
             }
-            
             existing.isActive = true
             existing.isFinished = false
             return
@@ -98,6 +83,10 @@ export default class CookingStore implements ILocalStore {
             timer.isActive = false
             timer.isFinished = false
         }
+    }
+
+    deleteTimer(id: string) {
+        this._timers = this._timers.filter(t => t.id !== id)
     }
 
     tick() {

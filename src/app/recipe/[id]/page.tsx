@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   try {
     const recipe = await getRecipe(id)
     return {
-      title: `${recipe.name} | Food App`,
+      title: `${recipe.name} | Food Client`,
       description: recipe.summary.replace(/<[^>]*>/g, '').slice(0, 160)
     }
   } catch {

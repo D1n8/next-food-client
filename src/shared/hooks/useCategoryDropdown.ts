@@ -51,11 +51,19 @@ export const useCategoryDropdown = () => {
         return formatSeletedCategories(value)
     }
 
+    const handleClear = () => {
+        setLocalSelected([])
+        const newParams = new URLSearchParams(searchParams.toString())
+        newParams.delete(QueryParams.Categories)
+        router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
+    }
+
     return {
         options: categoryOptions,
         value: localSelected,
         onChange: handleChange,
         onApply: handleApply,
-        getTitle: handleGetTitle
+        getTitle: handleGetTitle,
+        clear: handleClear
     }
 }

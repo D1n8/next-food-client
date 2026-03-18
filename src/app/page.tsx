@@ -71,6 +71,11 @@ const RecipesListContent = observer(() => {
         }
     }, [favoritesStore, isAuth, router])
 
+    const handleClear = useCallback(() => {
+        const params = new URLSearchParams()
+        router.push(`/?${params.toString()}`, { scroll: false })
+    }, [router])
+
     const toggleFilters = () => {
         setAllFiltersIsOpen(prev => !prev)
     }
@@ -100,7 +105,10 @@ const RecipesListContent = observer(() => {
                                 </div>
                                 <CategoryDropdown />
                             </div>
-                            <IngredientFilter />
+                            <div className={styles.bottomContainer}>
+                                <IngredientFilter />
+                                <Button className={styles.clearFilters} onClick={handleClear}>Clear filters</Button>
+                            </div>
                         </div>
                     </div>
 

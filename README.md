@@ -87,21 +87,14 @@ cd next-food-client
 *Важно: из-за специфики зависимостей в некоторых окружениях рекомендуется использовать флаг `--legacy-peer-deps` для избежания конфликтов версий ESLint.*
 
 ```bash
-npm install --legacy-peer-deps
+yarn add --legacy-peer-deps
 ```
 
-### 3\. Настройка окружения
-
-Создайте файл `.env.local` в корне проекта и укажите адрес вашего API (Strapi):
-
-```env
-NEXT_PUBLIC_BASE_URL=[https://your-strapi-instance.com](https://your-strapi-instance.com)
-```
-
-### 4\. Запуск в режиме разработки
+### 3\. Запуск в режиме разработки
 
 ```bash
-npm run dev
+yarn run dev
 ```
+
 
 Откройте [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) в браузере.

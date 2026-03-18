@@ -1,7 +1,7 @@
 'use client'
 import Input from '@components/Input';
 import styles from '../Auth.module.scss'
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import Button from '@components/Button';
 import Text from '@components/Text';
 import Link from 'next/link';
@@ -16,22 +16,52 @@ const Register = observer(() => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string }>({})
     const router = useRouter()
     const { userStore } = useRootStore()
 
+    useEffect(() => {
+        userStore.clearError()
+    }, [userStore])
+
+    const validate = useCallback(() => {
+        const newErrors: { username?: string; email?: string; password?: string } = {}
+
+        if (username.length > 20) {
+            newErrors.username = 'Maximum 20 characters allowed'
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(email)) {
+            newErrors.email = 'Invalid email format'
+        }
+
+        if (password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters'
+        }
+
+        setErrors(newErrors)
+        return Object.keys(newErrors).length === 0
+    }, [username, email, password])
+
     const submitRegister = useCallback(async (e: React.SubmitEvent) => {
         e.preventDefault()
+
+        if (!validate()) {
+            return
+        }
+
         await userStore.registerUser(username, email, password)
 
         if (userStore.isAuth) {
             router.push(routes.profile.mask)
         }
-    }, [username, email, password, userStore])
+    }, [username, email, password, userStore, validate])
 
     return (
         <div className={styles.authPage}>
             <form id='auth-form' className={styles.form} onSubmit={submitRegister}>
-                <Text tag='h3' color='primary' className={styles.title}>Authorization</Text>
+                <Text tag='h3' view='title' color='primary' className={styles.title}>Authorization</Text>
 
                 <div className={styles.inputContainer}>
                     <label className={styles.label} htmlFor="username">Username</label>
@@ -40,8 +70,12 @@ const Register = observer(() => {
                         style={{ width: '100%' }}
                         id='username'
                         value={username}
-                        onChange={setUsername}
+                        onChange={(val) => {
+                            setUsername(val)
+                            if (errors.username) setErrors(prev => ({ ...prev, username: undefined }))
+                        }}
                         required />
+                    {errors.username && <Text view='p-14' className={styles.fieldError}>{errors.username}</Text>}
                 </div>
 
                 <div className={styles.inputContainer}>
@@ -52,8 +86,12 @@ const Register = observer(() => {
                         id='email'
                         type='email'
                         value={email}
-                        onChange={setEmail}
+                        onChange={(val) => {
+                            setEmail(val)
+                            if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+                        }}
                         required />
+                    {errors.email && <Text view='p-14' className={styles.fieldError}>{errors.email}</Text>}
                 </div>
 
                 <div className={styles.inputContainer}>
@@ -64,11 +102,15 @@ const Register = observer(() => {
                         id='password'
                         type={showPassword ? 'text' : 'password'}
                         value={password}
-                        onChange={setPassword}
+                        onChange={(val) => {
+                            setPassword(val)
+                            if (errors.password) setErrors(prev => ({ ...prev, password: undefined }))
+                        }}
                         required
                         afterSlot={
                             <ButtonEye show={showPassword} setIsShow={setShowPassword}/>
                         } />
+                    {errors.password && <Text view='p-14' className={styles.fieldError}>{errors.password}</Text>}
                 </div>
 
                 <div className={styles.bottomContainer}>

@@ -9,7 +9,8 @@ const CategoryDropdown = observer(() => {
         value, 
         onChange, 
         onApply, 
-        getTitle 
+        getTitle,
+        clear
     } = useCategoryDropdown();
 
     return (
@@ -19,6 +20,7 @@ const CategoryDropdown = observer(() => {
             onChange={onChange}
             getTitle={getTitle}
             action={onApply}
+            clear={clear}
             placeholder="Categories" 
         />
     );

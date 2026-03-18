@@ -139,6 +139,11 @@
     animation: pulse 1s infinite;
 }
 
+.warning{
+    margin-top: 10px;
+    color: var(--color-red);
+}
+
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }

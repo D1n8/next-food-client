@@ -12,6 +12,7 @@ import { useLocalStore } from '@/shared/hooks/useLocalStore'
 import PlayButton from './components/PlayButton'
 import PauseButton from './components/PauseButton'
 import ResetButton from './components/ResetButton'
+import CloseButton from '@components/CloseButton' 
 
 export type InteractiveChefViewProps = {
     isOpen: boolean
@@ -22,6 +23,7 @@ export type InteractiveChefViewProps = {
 const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOpen, onClose, directions }) => {
     const [showConfirmExit, setShowConfirmExit] = useState(false)
     const [notifiedTimers, setNotifiedTimers] = useState<Set<string>>(new Set())
+    const [timerWarning, setTimerWarning] = useState<string | null>(null)
 
     const steps = useMemo(() => directions.map(d => d.description), [directions])
     const store = useLocalStore(() => new CookingStore(steps))
@@ -54,9 +56,7 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
     }
 
     const handleConfirmExit = () => {
-        store.timers.forEach(t => {
-            store.resetTimer(t.id)
-        })
+        store.timers.forEach(t => store.deleteTimer(t.id))
         setShowConfirmExit(false)
         onClose()
     }
@@ -85,10 +85,7 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
 
                     <div className={styles.progressContainer}>
                         <div className={styles.progressBar}>
-                            <div
-                                className={styles.progressFill}
-                                style={{ width: `${progress}%` }}
-                            />
+                            <div className={styles.progressFill} style={{ width: `${progress}%` }} />
                         </div>
                         <Text view='p-16' color='secondary' className={styles.progressText}>
                             Step {store.currentStepIndex + 1} of {store.totalSteps}
@@ -98,25 +95,40 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
                     <div className={styles.stepContent}>
                         <Text className={styles.stepText}>{store.currentStep}</Text>
 
+                        {timerWarning && (
+                            <Text color='accent' view='p-16' className={styles.warning}>
+                                {timerWarning}
+                            </Text>
+                        )}
+
                         {parsedTimes.length > 0 && (
                             <div className={styles.timerButtons}>
                                 {parsedTimes.map(time => {
-                                    const existingTimer = store.timers.find(t => t.label === time.label)
+                                    const uniqueTimerId = `step-${store.currentStepIndex}-${time.id}`
+                                    
+                                    const existingTimer = store.timers.find(t => t.id === uniqueTimerId)
                                     const isActive = existingTimer?.isActive
                                     const isFinished = existingTimer?.isFinished
 
                                     return (
                                         <Button
-                                            key={time.id}
+                                            key={uniqueTimerId}
                                             className={classNames(styles.timerButton, {
                                                 [styles.activeTimer]: isActive,
                                                 [styles.finishedTimer]: isFinished,
                                             })}
                                             onClick={() => {
                                                 if (isActive) {
-                                                    store.pauseTimer(time.id)
+                                                    store.pauseTimer(uniqueTimerId)
                                                 } else {
-                                                    store.startTimer(time.id, time.seconds, time.label)
+                                                    if (!existingTimer && store.timers.length >= 2) {
+                                                        setTimerWarning("You can only run 2 timers at the same time.")
+                                                        setTimeout(() => setTimerWarning(null), 3000)
+                                                        return
+                                                    }
+                                                    
+                                                    const displayLabel = `Step ${store.currentStepIndex + 1}: ${time.label}`
+                                                    store.startTimer(uniqueTimerId, time.seconds, displayLabel)
                                                 }
                                             }}
                                         >
@@ -139,22 +151,24 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
                                     })}
                                 >
                                     <Text color='secondary' className={styles.timerLabel}>{timer.label}</Text>
+                                    
                                     <Text color='primary' view='p-20' className={classNames(styles.timerValue, {
                                         [styles.timerValueFinished]: timer.isFinished,
                                     })}>
                                         {formatTime(timer.remainingTime)}
                                     </Text>
+                                    
                                     <div className={styles.timerControls}>
                                         {!timer.isFinished && (
                                             timer.isActive ?
                                                 <PauseButton
                                                     className={styles.timerControlBtn}
-                                                    onClick={() => timer.isActive ? store.pauseTimer(timer.id) : store.startTimer(timer.id, timer.initialDuration, timer.label)}
+                                                    onClick={() => store.pauseTimer(timer.id)}
                                                 />
                                                 :
                                                 <PlayButton
                                                     className={styles.timerControlBtn}
-                                                    onClick={() => timer.isActive ? store.pauseTimer(timer.id) : store.startTimer(timer.id, timer.initialDuration, timer.label)}
+                                                    onClick={() => store.startTimer(timer.id, timer.initialDuration, timer.label)}
                                                 />
                                         )}
                                         <ResetButton
@@ -162,7 +176,12 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
                                             className={styles.timerControlBtn}
                                             onClick={() => store.resetTimer(timer.id)}
                                         />
+                                        
+                                        <CloseButton 
+                                            onClick={() => store.deleteTimer(timer.id)} 
+                                        />
                                     </div>
+                                    
                                     {timer.isFinished && (
                                         <Text className={styles.timerNotification}>Timer Done!</Text>
                                     )}
@@ -190,12 +209,7 @@ const InteractiveChefView: React.FC<InteractiveChefViewProps> = observer(({ isOp
                 </div>
             </Modal>
 
-            <Modal
-                isOpen={showConfirmExit}
-                onClose={handleCancelExit}
-                showCloseButton={false}
-                className={styles.confirmModal}
-            >
+            <Modal isOpen={showConfirmExit} onClose={handleCancelExit} showCloseButton={false} className={styles.confirmModal}>
                 <div className={styles.confirmContent}>
                     <Text tag='h3' color='primary' view='p-20' className={styles.confirmTitle}>Exit Cooking Mode?</Text>
                     <Text color='secondary' view='p-16' className={styles.confirmText}>

@@ -39,7 +39,7 @@ const Favorites = observer(() => {
 
     return (
         <div className={styles.favoritesPage}>
-            <Text tag='h2' color='primary'>Your favorites recipes</Text>
+            <Text tag='h2' view='title' color='primary'>Favorites</Text>
             {
                 <div className={styles.list}>{
                     (store.favorites.length > 0) &&
