@@ -61,7 +61,7 @@ const Register = observer(() => {
     return (
         <div className={styles.authPage}>
             <form id='auth-form' className={styles.form} onSubmit={submitRegister}>
-                <Text tag='h3' view='title' color='primary' className={styles.title}>Authorization</Text>
+                <Text tag='h3' view='title' color='primary' className={styles.title}>Registration</Text>
 
                 <div className={styles.inputContainer}>
                     <label className={styles.label} htmlFor="username">Username</label>
