@@ -20,6 +20,11 @@ function Dropdown({ getTitle, options, selectedKey, onSelect, isActive }: Dropdo
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [])
 
+    const handleOptionClick = (key: string) => {
+        onSelect(key as SortKey)
+        setIsOpen(false)
+    }
+
 
     return (
         <div className={styles.sort} ref={containerRef}>
@@ -35,7 +40,7 @@ function Dropdown({ getTitle, options, selectedKey, onSelect, isActive }: Dropdo
                                 <div
                                     key={opt.key}
                                     className={classNames(styles.option, isSelected && styles.selected)}
-                                    onClick={() => onSelect(opt.key as SortKey)} >
+                                    onClick={() => handleOptionClick(opt.key)} >
                                     {opt.value}
                                 </div>
                             )

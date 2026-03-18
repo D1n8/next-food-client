@@ -15,7 +15,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     disabled,
     getTitle,
     placeholder,
-    action
+    action,
+    clear
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [filter, setFilter] = useState('');
@@ -54,6 +55,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         e.stopPropagation()
         setIsOpen(false)
         action()
+    }
+
+    const handleClear = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIsOpen(false)
+        clear()
     }
 
     const displayValue = isOpen ? filter : value.length > 0 ? getTitle(value) : '';
@@ -97,8 +104,10 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                             <div className={styles.multiDropdownOption}>Nothing found</div>
                         )}
                     </div>
-
-                    <Button onClick={handleClick} style={{ justifyContent: 'center' }}>Aplly</Button>
+                    <div className={styles.btnsContainer}>
+                        <Button onClick={handleClear} className={classNames(styles.btn, styles.btnClear)}>Clear</Button>
+                        <Button onClick={handleClick} className={styles.btn}>Aplly</Button>
+                    </div>
                 </div>
             )}
         </div>

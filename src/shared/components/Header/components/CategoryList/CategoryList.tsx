@@ -76,7 +76,7 @@ function CategoryListMenu({ visible, onClose, isMobile, backToMenu }: ICategoryL
 
 export default function CategoryList(props: ICategoryList) {
     return (
-        <Suspense fallback={<div></div>}>
+        <Suspense fallback={null}>
             <CategoryListMenu {...props}/>
         </Suspense>
     );

@@ -32,9 +32,7 @@ export default class RecipeListStore implements ILocalStore {
 
             list: computed,
             meta: computed,
-            hasMore: computed,
-            // isError: computed,
-            // isLoading: computed
+            hasMore: computed
         });
 
         if (initialData && initialData.length > 0) {

@@ -109,7 +109,18 @@
 .toogleBtn{
     font-size: 16px;
     font-weight: 400;
-    padding: 10px 10px;
+    padding: 10px;
+}
+
+.bottomContainer{
+    display: flex;
+    justify-content: space-between; 
+    align-items: end;
+}
+
+.clearFilters {
+    font-size: 16px;
+    padding: 10px;
 }
 
 .filtersWrapper {

@@ -12,6 +12,7 @@
     --color-red: #f44336;
     --color-red-hover: #d32f2f;
     --color-shadow: rgba(0, 0, 0, 0.5);
+    --color-error: red;
 }
 
 [data-theme='dark'] {
@@ -28,6 +29,7 @@
     --color-red: #f44336;
     --color-red-hover: #d32f2f;
     --color-shadow: rgba(255, 255, 255, 0.5);
+    --color-error: red;
 }
 
 * {

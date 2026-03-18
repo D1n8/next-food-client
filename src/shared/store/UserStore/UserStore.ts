@@ -23,6 +23,7 @@ export default class UserStore {
             loginUser: action,
             registerUser: action,
             logoutUser: action,
+            clearError: action,
 
             isAuth: computed,
             error: computed,
@@ -147,5 +148,9 @@ export default class UserStore {
     logoutUser() {
         localStorage.removeItem(LocalStorageItem.JWT)
         this._user = null
+    }
+
+    clearError() {
+        this._error = ''
     }
 }

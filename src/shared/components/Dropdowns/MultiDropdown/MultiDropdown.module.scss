@@ -32,7 +32,7 @@
     height: 300px;
     border: 1px solid var(--color-secondary);
     border-radius: 10px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .multiDropdownOption {
@@ -57,6 +57,21 @@
 
 .multiDropdown:focus-within {
     border-color: var(--color-brand);
+}
+
+.btnsContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn{
+    padding: 10px 40px;
+}
+
+.btnClear{
+    background-color: transparent;
+    border: 1px solid var(--color-brand);
+    color: var(--color-text);
 }
 
 @keyframes appearance {

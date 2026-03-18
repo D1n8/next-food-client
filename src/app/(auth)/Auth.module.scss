@@ -28,6 +28,7 @@
 }
 
 .title{
+    text-align: center;
     margin-bottom: 10px;
 }
 
@@ -62,7 +63,12 @@
 }
 
 .error{
-    color: red;
+    color: var(--color-error);
+}
+
+.fieldError{
+    color: var(--color-error);
+    font-size: 12px;
 }
 
 .loaderContainer {

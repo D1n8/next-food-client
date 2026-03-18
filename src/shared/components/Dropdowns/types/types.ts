@@ -32,4 +32,5 @@ export type MultiDropdownProps = {
   getTitle: (value: Option[]) => string;
   placeholder: string;
   action: () => void;
+  clear: () => void;
 };
